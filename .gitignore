@@ -1,0 +1,12 @@
+# OMC operational state (not part of the project)
+.omc/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# temp
+*.log
+*.tmp

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>라오어 투자 전략 교육 자료 — 무한매수법 & 밸류 리밸런싱</title>
+<meta name="description" content="라오어의 두 가지 미국주식 투자 전략(무한매수법·밸류 리밸런싱)을 숫자로 정리한 교육 자료 모음">
+<style>
+  :root{
+    color-scheme: light;
+    --plane:#f3f0e9; --surface:#fbfaf6; --surface-2:#f6f4ec;
+    --ink:#16150f; --ink-2:#56534a; --muted:#8a877d;
+    --hair:#e2ddd0; --hair-strong:#cfc9b8;
+    --ib:#1f5fd0; --ib-soft:#e7effc;
+    --vr:#0a8a6a; --vr-soft:#e0f4ee;
+    --shadow:0 1px 2px rgba(20,18,10,.05), 0 8px 26px rgba(20,18,10,.07);
+    --mono: ui-monospace,"SFMono-Regular","SF Mono",Menlo,Consolas,monospace;
+    --sans: system-ui,-apple-system,"Apple SD Gothic Neo","Pretendard","Malgun Gothic","맑은 고딕","Noto Sans KR",sans-serif;
+  }
+  @media (prefers-color-scheme: dark){:root:where(:not([data-theme="light"])){
+    color-scheme:dark;
+    --plane:#0c0d12; --surface:#14161e; --surface-2:#1b1e28;
+    --ink:#f4f2ea; --ink-2:#b9b6ac; --muted:#83817a;
+    --hair:#262a35; --hair-strong:#333846;
+    --ib:#5b93f0; --ib-soft:#182238; --vr:#33c39a; --vr-soft:#0f2620;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 26px rgba(0,0,0,.45);
+  }}
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --plane:#0c0d12; --surface:#14161e; --surface-2:#1b1e28;
+    --ink:#f4f2ea; --ink-2:#b9b6ac; --muted:#83817a;
+    --hair:#262a35; --hair-strong:#333846;
+    --ib:#5b93f0; --ib-soft:#182238; --vr:#33c39a; --vr-soft:#0f2620;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 26px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--plane);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--hair);
+    background:radial-gradient(120% 90% at 85% -10%, color-mix(in srgb,var(--ib) 12%,transparent), transparent 60%), linear-gradient(180deg,var(--surface),var(--plane))}
+  .grid{position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:linear-gradient(var(--hair) 1px,transparent 1px),linear-gradient(90deg,var(--hair) 1px,transparent 1px);
+    background-size:44px 44px;-webkit-mask-image:radial-gradient(120% 80% at 80% 0%,#000,transparent 70%);mask-image:radial-gradient(120% 80% at 80% 0%,#000,transparent 70%)}
+  .hero{position:relative;padding:80px 0 56px}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ib);font-weight:600}
+  h1{font-size:clamp(32px,6vw,52px);margin:14px 0 10px;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+  .sub{font-size:clamp(15px,2.4vw,19px);color:var(--ink-2);max-width:60ch}
+  main{padding:52px 0 40px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+  a.card{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--hair);
+    border-radius:16px;padding:26px;box-shadow:var(--shadow);transition:transform .12s,border-color .12s}
+  a.card:hover{transform:translateY(-3px)}
+  a.card.ib{border-top:4px solid var(--ib)} a.card.ib:hover{border-color:var(--ib)}
+  a.card.vr{border-top:4px solid var(--vr)} a.card.vr:hover{border-color:var(--vr)}
+  .tag{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+  .ib .tag{color:var(--ib)} .vr .tag{color:var(--vr)}
+  .card h2{font-size:23px;margin:8px 0 8px;font-weight:800}
+  .card p{margin:0 0 14px;color:var(--ink-2);font-size:15px}
+  .card .go{font-family:var(--mono);font-size:13.5px;font-weight:700}
+  .ib .go{color:var(--ib)} .vr .go{color:var(--vr)}
+  ul.pts{margin:0 0 16px;padding-left:18px} ul.pts li{font-size:14px;color:var(--ink-2);margin:4px 0}
+  .note{margin-top:34px;background:var(--surface-2);border:1px solid var(--hair);border-radius:14px;padding:18px 20px;font-size:14px;color:var(--ink-2)}
+  .note b{color:var(--ink)}
+  footer{border-top:1px solid var(--hair);padding:28px 0 60px;color:var(--muted);font-size:13px}
+  :focus-visible{outline:2px solid var(--ib);outline-offset:3px;border-radius:8px}
+</style>
+</head>
+<body>
+<header>
+  <div class="grid" aria-hidden="true"></div>
+  <div class="wrap hero">
+    <div class="eyebrow">미국주식 · 3배 레버리지 전략 · 교육 자료</div>
+    <h1>라오어 투자 전략, 숫자로 이해하기</h1>
+    <p class="sub">필명 <b>라오어</b>가 공개한 두 가지 미국주식 투자법 — 중기 스윙형 <b>무한매수법</b>과 초장기 장투형 <b>밸류 리밸런싱</b> — 을 규칙과 예시 데이터로 정리한 교육 자료 모음입니다.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="cards">
+      <a class="card ib" href="infinite-buying.html">
+        <div class="tag">중기 스윙 · Infinite Buying</div>
+        <h2>무한매수법</h2>
+        <p>원금을 40분할해 매일 기계적으로 나눠 사고, 평단 +10%에 익절하는 사이클을 반복하는 코스트 애버리징 전략.</p>
+        <ul class="pts">
+          <li>큰수 vs 작은수 매수 주문의 원리</li>
+          <li>v2.2 별% 공식과 전·후반전 규칙</li>
+          <li>SOXL 한 사이클 매매 샘플 원장</li>
+        </ul>
+        <span class="go">자료 열기 →</span>
+      </a>
+      <a class="card vr" href="value-rebalancing.html">
+        <div class="tag">초장기 장투 · Value Rebalancing</div>
+        <h2>밸류 리밸런싱 (VR)</h2>
+        <p>목표 자산가치 경로를 정해두고, 평가액이 목표보다 낮으면 더 사고 높으면 덜 사거나 파는 밸류 에버리징 기반 장기 투자법.</p>
+        <ul class="pts">
+          <li>목표값(V) 설정과 리밸런싱 원리</li>
+          <li>현금 풀(pool)과 매수·매도 판단</li>
+          <li>숫자로 따라가는 시뮬레이션 예시</li>
+        </ul>
+        <span class="go">자료 열기 →</span>
+      </a>
+    </div>
+
+    <div class="note">
+      <b>면책:</b> 이 저장소는 공개된 2차 자료를 교차검증해 재구성한 <b>교육용 정리 자료</b>이며 투자 권유가 아닙니다. 3배 레버리지 상품은 원금 전액 손실이 가능한 초고위험 상품입니다. 규칙 원본은 라오어의 저서(『라오어의 미국주식 무한매수법』 알키 2021, 『라오어의 미국주식 밸류 리밸런싱』 알키 2022)와 네이버 카페 글이며, 실제 운용 전 원문을 반드시 확인하세요.
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">라오어 투자 전략 교육 자료 · 무한매수법 &amp; 밸류 리밸런싱</div>
+</footer>
+</body>
+</html>

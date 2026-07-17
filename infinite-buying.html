@@ -1,0 +1,864 @@
+<title>라오어 무한매수법 — 교육 자료 & SOXL 매매 샘플</title>
+<style>
+  :root {
+    color-scheme: light;
+    --plane:        #f3f0e9;   /* page background — warm ledger paper */
+    --surface:      #fbfaf6;   /* card surface */
+    --surface-2:    #f6f4ec;   /* alt rows / insets */
+    --ink:          #16150f;
+    --ink-2:        #56534a;
+    --muted:        #8a877d;
+    --hair:         #e2ddd0;
+    --hair-strong:  #cfc9b8;
+    --accent:       #1f5fd0;   /* brand blue */
+    --accent-soft:  #e7effc;
+    --small:        #1f5fd0;   /* 작은수 / 평단 */
+    --small-soft:   #e7effc;
+    --big:          #d85a20;   /* 큰수 / 별% */
+    --big-soft:     #fbeadf;
+    --good:         #0a8a0a;   /* 매도 / 익절 */
+    --good-soft:    #e3f4e3;
+    --bad:          #c6362f;   /* 리스크 / 손실 */
+    --bad-soft:     #fbe6e4;
+    --shadow:       0 1px 2px rgba(20,18,10,.05), 0 6px 20px rgba(20,18,10,.06);
+    --mono: ui-monospace, "SFMono-Regular", "SF Mono", "JetBrains Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "맑은 고딕", "Noto Sans KR", sans-serif;
+    --serif: "Iowan Old Style", "Apple Garamond", "Times New Roman", "Nanum Myeongjo", "본명조", serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --plane:       #0c0d12;
+      --surface:     #14161e;
+      --surface-2:   #1b1e28;
+      --ink:         #f4f2ea;
+      --ink-2:       #b9b6ac;
+      --muted:       #83817a;
+      --hair:        #262a35;
+      --hair-strong: #333846;
+      --accent:      #5b93f0;
+      --accent-soft: #182238;
+      --small:       #5b93f0;
+      --small-soft:  #172035;
+      --big:         #f0824a;
+      --big-soft:    #2a1a10;
+      --good:        #3fb93f;
+      --good-soft:   #12240f;
+      --bad:         #ee6a63;
+      --bad-soft:    #2a1310;
+      --shadow:      0 1px 2px rgba(0,0,0,.4), 0 8px 26px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --plane:#0c0d12; --surface:#14161e; --surface-2:#1b1e28;
+    --ink:#f4f2ea; --ink-2:#b9b6ac; --muted:#83817a;
+    --hair:#262a35; --hair-strong:#333846;
+    --accent:#5b93f0; --accent-soft:#182238;
+    --small:#5b93f0; --small-soft:#172035;
+    --big:#f0824a; --big-soft:#2a1a10;
+    --good:#3fb93f; --good-soft:#12240f;
+    --bad:#ee6a63; --bad-soft:#2a1310;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 26px rgba(0,0,0,.45);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--plane);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .col { max-width: 720px; margin-left: auto; margin-right: auto; }
+
+  /* ---------- typography ---------- */
+  h1,h2,h3 { text-wrap: balance; line-height: 1.2; letter-spacing: -0.01em; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--accent); font-weight: 600;
+  }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+  a:hover { border-bottom-color: var(--accent); }
+  strong { font-weight: 700; }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  /* ---------- hero ---------- */
+  header.hero {
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--hair);
+    background:
+      radial-gradient(120% 90% at 85% -10%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 60%),
+      linear-gradient(180deg, var(--surface), var(--plane));
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: .5; pointer-events: none;
+    background-image:
+      linear-gradient(var(--hair) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hair) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(120% 80% at 80% 0%, #000, transparent 70%);
+            mask-image: radial-gradient(120% 80% at 80% 0%, #000, transparent 70%);
+  }
+  .hero-inner { position: relative; padding: 84px 0 60px; }
+  h1 { font-size: clamp(34px, 6vw, 58px); margin: 16px 0 8px; font-weight: 800; }
+  h1 .sub { display:block; font-size: clamp(15px,2.4vw,20px); font-weight: 500; color: var(--ink-2); letter-spacing: 0; margin-top: 14px; line-height:1.5; }
+  .hero-meta { display:flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .chip {
+    font-family: var(--mono); font-size: 12.5px; padding: 5px 11px; border-radius: 999px;
+    border: 1px solid var(--hair-strong); color: var(--ink-2); background: var(--surface);
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .chip b { color: var(--ink); font-weight: 700; }
+
+  /* ---------- sections ---------- */
+  section { padding: 60px 0; border-bottom: 1px solid var(--hair); }
+  section:last-of-type { border-bottom: 0; }
+  .sec-head { margin-bottom: 30px; }
+  h2 { font-size: clamp(24px, 3.6vw, 34px); margin: 8px 0 0; font-weight: 800; }
+  .lede { color: var(--ink-2); font-size: 18px; margin-top: 12px; }
+  h3 { font-size: 20px; margin: 32px 0 10px; font-weight: 700; }
+
+  /* ---------- callout ---------- */
+  .callout {
+    border-radius: 14px; padding: 20px 22px; margin: 22px 0;
+    border: 1px solid var(--hair-strong); background: var(--surface); box-shadow: var(--shadow);
+    display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start;
+  }
+  .callout .ic { font-family: var(--mono); font-weight: 700; font-size: 13px; letter-spacing: .05em;
+    padding: 4px 8px; border-radius: 7px; white-space: nowrap; }
+  .callout.warn { border-color: color-mix(in srgb, var(--big) 45%, var(--hair)); background: color-mix(in srgb, var(--big-soft) 55%, var(--surface)); }
+  .callout.warn .ic { background: var(--big-soft); color: var(--big); }
+  .callout.danger { border-color: color-mix(in srgb, var(--bad) 45%, var(--hair)); background: color-mix(in srgb, var(--bad-soft) 55%, var(--surface)); }
+  .callout.danger .ic { background: var(--bad-soft); color: var(--bad); }
+  .callout.note .ic { background: var(--accent-soft); color: var(--accent); }
+  .callout p { margin: 0; }
+  .callout p + p { margin-top: .6em; }
+
+  /* ---------- cards ---------- */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; margin-top: 8px; }
+  .card { background: var(--surface); border: 1px solid var(--hair); border-radius: 14px; padding: 18px 18px 16px; box-shadow: var(--shadow); }
+  .card .k { font-family: var(--mono); font-size: 12.5px; color: var(--muted); letter-spacing: .04em; }
+  .card .v { font-weight: 700; margin: 3px 0 6px; font-size: 17px; }
+  .card p { font-size: 14.5px; color: var(--ink-2); margin: 0; line-height: 1.55; }
+
+  /* ---------- formula ---------- */
+  .formula {
+    font-family: var(--mono); font-size: 18px; text-align:center;
+    background: var(--surface-2); border: 1px dashed var(--hair-strong); border-radius: 12px;
+    padding: 18px; margin: 16px 0; color: var(--ink); font-variant-numeric: tabular-nums;
+  }
+  .formula .hl-small { color: var(--small); font-weight: 700; }
+  .formula .hl-big { color: var(--big); font-weight: 700; }
+
+  /* ---------- 큰수/작은수 split ---------- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  .split .box { border-radius: 14px; padding: 20px; border: 1px solid var(--hair); background: var(--surface); box-shadow: var(--shadow); }
+  .box.small-box { border-top: 3px solid var(--small); }
+  .box.big-box { border-top: 3px solid var(--big); }
+  .box .tag { font-family: var(--mono); font-size: 12px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; }
+  .small-box .tag { color: var(--small); }
+  .big-box .tag { color: var(--big); }
+  .box h4 { margin: 6px 0 10px; font-size: 19px; }
+  .box ul { margin: 10px 0 0; padding-left: 18px; }
+  .box li { margin: 6px 0; font-size: 14.5px; color: var(--ink-2); }
+  .box li b { color: var(--ink); }
+
+  /* ---------- charts ---------- */
+  figure { margin: 24px 0 8px; }
+  .chart-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 14px; padding: 18px 18px 8px; box-shadow: var(--shadow); }
+  .chart-title { font-weight: 700; font-size: 16px; margin: 0 0 2px; }
+  .chart-sub { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; }
+  .chart-scroll { overflow-x: auto; }
+  svg { display: block; width: 100%; height: auto; }
+  .legend { display:flex; flex-wrap:wrap; gap: 14px; margin: 10px 2px 4px; font-size: 13px; color: var(--ink-2); }
+  .legend span { display:inline-flex; align-items:center; gap:6px; }
+  .legend i { width: 14px; height: 3px; border-radius: 2px; display:inline-block; }
+  .legend i.dot { width:10px; height:10px; border-radius:50%; }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+  /* ---------- tables ---------- */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--hair); border-radius: 14px; box-shadow: var(--shadow); background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 720px; }
+  caption { text-align:left; padding: 14px 16px 0; font-weight: 700; }
+  th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--hair); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: center; }
+  td.note-cell, th.note-cell { text-align: left; white-space: normal; min-width: 220px; color: var(--ink-2); font-size: 12.5px; }
+  thead th { position: sticky; top: 0; background: var(--surface-2); color: var(--ink-2); font-family: var(--mono); font-size: 11.5px; letter-spacing: .03em; text-transform: uppercase; font-weight: 600; z-index: 1; }
+  tbody td { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  tbody tr:hover { background: var(--surface-2); }
+  .cell-small { color: var(--small); font-weight: 700; }
+  .cell-big { color: var(--big); font-weight: 700; }
+  .cell-sell { color: var(--good); font-weight: 700; }
+  tr.row-buy1 td:first-child { box-shadow: inset 3px 0 0 var(--small); }
+  tr.row-half td:first-child { box-shadow: inset 3px 0 0 var(--big); }
+  tr.row-sell td:first-child { box-shadow: inset 3px 0 0 var(--good); }
+  tr.row-exit { background: var(--good-soft); }
+  tr.row-exit:hover { background: var(--good-soft); }
+  tr.row-exit td { font-weight: 700; }
+  .badge { font-family: var(--mono); font-size: 10.5px; padding: 2px 6px; border-radius: 5px; font-weight: 700; letter-spacing:.03em; }
+  .badge.first { background: var(--small-soft); color: var(--small); }
+  .badge.second { background: var(--big-soft); color: var(--big); }
+
+  /* ---------- stat row ---------- */
+  .stats { display:grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 14px; margin: 22px 0 4px; }
+  .stat { background: var(--surface); border:1px solid var(--hair); border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow); }
+  .stat .n { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 26px; font-weight: 800; letter-spacing:-.02em; }
+  .stat .l { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .stat.good .n { color: var(--good); }
+
+  /* ---------- version table ---------- */
+  .vtable th { text-align:left; }
+  .vtable td { text-align:left; white-space: normal; font-family: var(--sans); font-size:14px; vertical-align: top; }
+  .vtable td:first-child, .vtable th:first-child { font-family: var(--mono); font-weight:700; white-space:nowrap; text-align:left; }
+
+  /* ---------- steps ---------- */
+  ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 16px 0 0; }
+  ol.steps li { position: relative; padding: 0 0 18px 46px; }
+  ol.steps li::before {
+    counter-increment: s; content: counter(s);
+    position:absolute; left:0; top:-2px; width: 30px; height:30px; border-radius:50%;
+    background: var(--accent-soft); color: var(--accent); font-family:var(--mono); font-weight:700;
+    display:grid; place-items:center; font-size:14px; border:1px solid color-mix(in srgb,var(--accent) 30%, transparent);
+  }
+  ol.steps li:not(:last-child)::after {
+    content:""; position:absolute; left:14.5px; top:30px; bottom:2px; width:1px; background: var(--hair-strong);
+  }
+  ol.steps b { color: var(--ink); }
+
+  /* ---------- misc ---------- */
+  .kv-list { margin: 8px 0 0; padding: 0; list-style: none; }
+  .kv-list li { padding: 10px 0; border-bottom: 1px dashed var(--hair); display:flex; gap: 14px; align-items:baseline; }
+  .kv-list li:last-child { border-bottom: 0; }
+  .kv-list .term { font-weight: 700; min-width: 128px; }
+  .kv-list .term .mono { font-family: var(--mono); font-size: 13px; color: var(--muted); display:block; font-weight: 400; }
+  .kv-list .def { color: var(--ink-2); font-size: 15px; }
+  hr.soft { border: 0; border-top: 1px solid var(--hair); margin: 28px 0; }
+  footer { padding: 46px 0 70px; color: var(--ink-2); font-size: 14px; }
+  footer h3 { font-size: 15px; text-transform: uppercase; letter-spacing:.08em; color: var(--muted); font-family: var(--mono); }
+  footer ol { padding-left: 20px; margin: 8px 0 0; }
+  footer li { margin: 5px 0; word-break: break-all; }
+  .toc { display:flex; flex-wrap:wrap; gap: 8px; margin-top: 24px; }
+  .toc a { font-size: 13.5px; padding: 6px 12px; border-radius: 999px; border:1px solid var(--hair-strong); background: var(--surface); color: var(--ink-2); }
+  .toc a:hover { color: var(--accent); border-color: var(--accent); }
+
+  .tt {
+    position: fixed; pointer-events: none; z-index: 50; background: var(--ink); color: var(--plane);
+    font-family: var(--mono); font-size: 12px; padding: 7px 10px; border-radius: 8px; opacity: 0;
+    transition: opacity .08s; white-space: nowrap; box-shadow: 0 6px 18px rgba(0,0,0,.35); line-height:1.5;
+  }
+  @media (max-width: 680px) {
+    body { font-size: 16px; }
+    .split { grid-template-columns: 1fr; }
+    .callout { grid-template-columns: 1fr; }
+    section { padding: 46px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+</style>
+
+<header class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <div class="eyebrow">기계적 분할매수 전략 · 교육 자료</div>
+    <h1>라오어 무한매수법
+      <span class="sub">3배 레버리지 ETF의 변동성을 “위험”이 아니라 “수익의 재료”로 쓰는 법 —<br>감정을 배제하고 규칙만 따르는 코스트 애버리징 매매법의 원리와 실전 샘플</span>
+    </h1>
+    <div class="hero-meta">
+      <span class="chip">📗 <b>『라오어의 미국주식 무한매수법』</b> 알키·2021</span>
+      <span class="chip">버전 <b>v1 → v2.2 → v3.0</b></span>
+      <span class="chip">샘플 종목 <b>SOXL</b> (반도체 3×)</span>
+      <span class="chip">🎯 초점 <b>큰수 vs 작은수</b></span>
+    </div>
+    <nav class="toc" aria-label="목차">
+      <a href="#intro">무한매수법이란</a>
+      <a href="#terms">핵심 용어</a>
+      <a href="#bigsmall">큰수 vs 작은수</a>
+      <a href="#rules">v2.2 매매 규칙</a>
+      <a href="#sample">SOXL 매매 샘플</a>
+      <a href="#versions">버전 비교</a>
+      <a href="#risk">리스크</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- SOLX/SOXL note -->
+  <section style="padding-top:40px;padding-bottom:40px;">
+    <div class="wrap col">
+      <div class="callout note">
+        <span class="ic">티커 확인</span>
+        <div>
+          <p>요청하신 <b>“SOLX”</b>는 실제로 존재하는 티커입니다 — 2025년 12월 상장된 <b>T-REX 2X Long SOL</b>(솔라나 <b>2배</b> 레버리지 ETF). 다만 시가총액 수십만 달러·일거래량 수천 주 수준의 초소형·저유동성 상품이라, 매일 40회 분할 LOC 주문을 넣는 무한매수법에는 맞지 않습니다.</p>
+          <p>무한매수법 커뮤니티가 실제로 쓰는 대표 종목은 <b>SOXL</b>(반도체 <b>3배</b>)과 TQQQ이며, v2.2·v3.0 규칙에 <span class="num">SOXL</span> 전용 매도 파라미터(+20% / −20%)까지 명시돼 있습니다. <b>SOLX ↔ SOXL은 글자 두 개 순서만 바뀐 흔한 오타</b>이기도 합니다. 그래서 이 자료의 매매 샘플은 <b>SOXL</b> 기준으로 만들었습니다 — 규칙은 종목과 무관하게 동일하므로, 정말 솔라나 2배(SOLX)를 의도하셨다면 가격만 바꿔 그대로 적용하면 됩니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §1 intro -->
+  <section id="intro">
+    <div class="wrap col">
+      <div class="sec-head">
+        <div class="eyebrow">01 — 개요</div>
+        <h2>무한매수법이란 무엇인가</h2>
+        <p class="lede">정해진 원금을 잘게 쪼개, 매일 기계적으로 나눠 사서 평균 단가를 낮추고, 평단보다 일정 % 오르면 전량 익절한 뒤 처음부터 다시 시작하는 것 — 이 “사이클”을 무한히 반복한다고 해서 <b>무한매수법</b>입니다.</p>
+      </div>
+
+      <p>필명 <b>라오어</b>가 2021년 저서 『라오어의 미국주식 무한매수법』에서 공개한 전략입니다. 23만 명 규모의 해외주식 카페에서 매달 수익을 인증하며 화제가 되었고, 이후 별도의 장기투자 전략인 <b>밸류 리밸런싱(VR)</b>과 함께 “중기 스윙 + 초장기 장투”를 병행하는 체계로 소개됩니다. (무한매수법과 VR은 <b>별개 전략</b>입니다.)</p>
+
+      <h3>세 가지 핵심 아이디어</h3>
+      <div class="cards">
+        <div class="card">
+          <div class="k">WHY — 3배 레버리지</div>
+          <div class="v">변동성을 재료로 쓴다</div>
+          <p>TQQQ·SOXL 같은 3배 ETF는 하루에도 10%씩 움직입니다. 단순 장기보유는 ‘변동성 끌림’ 탓에 불리하지만, 매일 분할 매수하면 오히려 그 출렁임이 평단을 빠르게 낮추는 연료가 됩니다.</p>
+        </div>
+        <div class="card">
+          <div class="k">HOW — 기계가 되어라</div>
+          <div class="v">감정 배제 · 규칙 실행</div>
+          <p>“쌀 때 더 사고 비쌀 때 덜 산다”를 사람의 판단이 아니라 <b>사전에 정한 공식</b>이 결정합니다. 미국장이 열리는 한국 밤에 <b>LOC 주문</b>을 걸어두면, 종가 기준으로 규칙이 자동 실행됩니다.</p>
+        </div>
+        <div class="card">
+          <div class="k">WHAT — 사이클</div>
+          <div class="v">사고 · 익절 · 반복</div>
+          <p>원금을 40분할(v2.2)해 매일 1회분씩 매수 → 평단 +10% 도달 시 전량 매도 → 다시 1회차부터. 40회를 다 소진할 때까지 익절이 없으면 손절 규칙(쿼터손절)으로 정리합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §2 terms -->
+  <section id="terms">
+    <div class="wrap col">
+      <div class="sec-head">
+        <div class="eyebrow">02 — 용어</div>
+        <h2>먼저 알아야 할 핵심 용어</h2>
+        <p class="lede">무한매수법 글은 약어와 은어가 많습니다. 아래 8개만 알면 규칙이 전부 읽힙니다.</p>
+      </div>
+      <ul class="kv-list">
+        <li><span class="term">원금<span class="mono">seed</span></span><span class="def">이 전략에만 쓰기로 정한 돈. 종목별로 계좌·원금을 분리하고 절대 섞지 않습니다.</span></li>
+        <li><span class="term">40분할<span class="mono">v2.2 기준</span></span><span class="def">원금을 40등분. v1·v2.2는 40분할, v3.0은 20분할(더 공격적).</span></li>
+        <li><span class="term">1회매수액<span class="mono">Q = 원금 ÷ 40</span></span><span class="def">하루에 매수를 “시도”하는 금액. 원금의 2.5%.</span></li>
+        <li><span class="term">평단<span class="mono">평균 매수 단가</span></span><span class="def">지금까지 산 물량의 평균 가격. 매일 갱신됩니다.</span></li>
+        <li><span class="term">LOC 주문<span class="mono">Limit On Close</span></span><span class="def">종가(장 마감가)에만 체결되는 지정가 주문. <b>매수는 종가 ≤ 지정가</b>일 때, <b>매도는 종가 ≥ 지정가</b>일 때 체결. 밤사이 자동 실행되어 규칙을 대신 지켜줍니다.</span></li>
+        <li><span class="term">T값 (회차)<span class="mono">T = 누적매수액 ÷ Q</span></span><span class="def">지금까지 원금의 몇 회차만큼 썼는지. T가 20이면 원금의 절반을 소진(진행률 50%). <span class="num">소수 둘째 자리에서 올림</span>(원문 기준).</span></li>
+        <li><span class="term">별% (☆%)<span class="mono">별% = (10 − T/2)%</span></span><span class="def">v2.2에서 매수·매도 가격을 정하는 핵심 값. 진행될수록(=T 증가) 작아져, 후반엔 음수가 됩니다. 기준 가격 <b>별지점 = 평단 × (1 + 별%/100)</b>.</span></li>
+        <li><span class="term" style="color:var(--big)">큰수 · 작은수<span class="mono">이 자료의 초점</span></span><span class="def">매일 거는 두 개의 매수 주문. 가격이 <b>높은</b> 쪽이 큰수, <b>낮은</b> 쪽이 작은수. 다음 장에서 자세히.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- §3 big vs small -->
+  <section id="bigsmall">
+    <div class="wrap col">
+      <div class="sec-head">
+        <div class="eyebrow">03 — 핵심</div>
+        <h2>큰수 vs 작은수</h2>
+        <p class="lede">무한매수법은 매일 매수 주문을 <b>두 개</b> 걸어, 1회매수액을 반씩 나눠 담습니다. 이 두 주문이 바로 큰수와 작은수입니다.</p>
+      </div>
+
+      <div class="split">
+        <div class="box small-box">
+          <div class="tag">작은수 · 낮은 가격</div>
+          <h4>평단 매수 (LOC 평단매수)</h4>
+          <p style="font-size:14.5px;color:var(--ink-2);margin:0">1회분의 <b>절반</b>을 <b>현재 평단가</b>에 LOC 매수.</p>
+          <ul>
+            <li><b>목적:</b> 종가가 평단보다 <b>낮게</b> 끝나는 날에만 체결 → 싸게 더 담아 <b>평단을 끌어내림</b>.</li>
+            <li><b>주문가:</b> 평단가 (0%)</li>
+            <li><b>체결 조건:</b> 종가 ≤ 평단</li>
+            <li>커뮤니티 속칭 “작은수(매수)”. <span style="color:var(--muted)">※ 공식 용어는 ‘평단매수’</span></li>
+          </ul>
+        </div>
+        <div class="box big-box">
+          <div class="tag">큰수 · 높은 가격</div>
+          <h4>별% 매수 (v1의 큰수매수)</h4>
+          <p style="font-size:14.5px;color:var(--ink-2);margin:0">1회분의 <b>절반</b>을 <b>별지점</b>(평단보다 위)에 LOC 매수.</p>
+          <ul>
+            <li><b>목적:</b> 일부러 높은 지정가로 걸어 <b>거의 매일 체결</b>시켜 “하루 최소 0.5회분은 산다”를 보장.</li>
+            <li><b>주문가:</b> 평단 × (1 + 별%/100) − $0.01</li>
+            <li><b>체결 조건:</b> 종가 ≤ 별지점</li>
+            <li>v1의 공식 용어 <b>‘LOC 큰수매수’</b>에서 유래(원래는 시중가 +10~15%).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout note" style="margin-top:20px">
+        <span class="ic">왜 “큰수”?</span>
+        <div>
+          <p>LOC 주문은 <b>지정가가 아니라 종가에 체결</b>됩니다. 그래서 지정가를 아무리 높게(=큰 수로) 걸어도 실제로는 그날 종가에 사게 되어 손해가 없습니다. 이 점을 이용해 “종가가 얼마든 무조건 사지도록” 일부러 크게 잡은 주문이 <b>큰수</b>입니다. 반대로 평단에 딱 맞춰 “쌀 때만 담는” 낮은 주문이 <b>작은수</b>죠.</p>
+          <p><b>그날 결과는 셋 중 하나입니다.</b> 종가 ≤ 평단 → 둘 다 체결(1회분 전부) · 평단 &lt; 종가 ≤ 별지점 → 큰수만 체결(0.5회분) · 종가 &gt; 별지점 → 아무것도 안 삼. 즉 <b>내리면 많이, 오르면 조금, 너무 오르면 안 산다</b>가 자동으로 구현됩니다.</p>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <span class="ic">용어 주의</span>
+        <div><p>‘큰수/작은수’는 <b>커뮤니티 은어</b>입니다. 라오어의 공식 문서는 v1에서 ‘LOC 큰수매수 / LOC 평단매수’라는 표현만 쓰고, ‘작은수’라는 말은 공식 자료에 없습니다. v2.2부터는 큰수의 고정 % 대신 <b>별% = (10 − T/2)%</b> 라는 동적 공식이 그 자리를 대체했습니다.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §4 rules -->
+  <section id="rules">
+    <div class="wrap col">
+      <div class="sec-head">
+        <div class="eyebrow">04 — 규칙</div>
+        <h2>v2.2 매매 규칙 (40분할)</h2>
+        <p class="lede">v2.2의 핵심은 T값 하나로 매수·매도 가격을 모두 계산하는 <b>별% 공식</b>입니다. 전반전·후반전이 딱 끊기지 않고 연속적으로 부드럽게 전환됩니다.</p>
+      </div>
+
+      <div class="formula">
+        <span class="hl-big">별%</span> = ( 10 − T ÷ 2 ) %　　　<span style="color:var(--muted)">|</span>　　　별지점 = 평단 × ( 1 + <span class="hl-big">별%</span> ÷ 100 )
+      </div>
+
+      <figure>
+        <div class="chart-card">
+          <p class="chart-title">별%는 진행될수록 작아진다 — T = 20에서 0%를 지나 음수로</p>
+          <p class="chart-sub">T(회차)가 커질수록 매수·매도 기준 가격이 평단에 가까워지고, 후반전(T ≥ 20)엔 평단 아래로 내려간다.</p>
+          <div class="chart-scroll"><svg id="starChart" viewBox="0 0 720 300" role="img" aria-label="T값에 따른 별% 곡선: T=0일 때 +10%, T=20일 때 0%, T=40일 때 −10%"></svg></div>
+          <div class="legend">
+            <span><i style="background:var(--big)"></i> 별% = (10 − T/2)%</span>
+            <span><i class="dot" style="background:var(--accent)"></i> 전반전·후반전 경계 (T=20)</span>
+          </div>
+        </div>
+      </figure>
+
+      <h3>매수 — 전반전과 후반전</h3>
+      <div class="split">
+        <div class="box small-box" style="border-top-color:var(--accent)">
+          <div class="tag" style="color:var(--accent)">전반전 · T &lt; 20</div>
+          <h4>주문 2개 (반반)</h4>
+          <ul>
+            <li><span class="cell-small">작은수</span> 0.5회분 → 평단 LOC</li>
+            <li><span class="cell-big">큰수</span> 0.5회분 → 별지점 LOC</li>
+            <li>이때 별% &gt; 0 이라 별지점은 <b>평단 위</b>. 큰수 &gt; 작은수.</li>
+          </ul>
+        </div>
+        <div class="box big-box" style="border-top-color:var(--accent)">
+          <div class="tag" style="color:var(--accent)">후반전 · T ≥ 20</div>
+          <h4>주문 1개</h4>
+          <ul>
+            <li><span class="cell-big">큰수</span> 1회분 전체 → 별지점 LOC</li>
+            <li>별% ≤ 0 이라 별지점이 <b>평단 아래</b>. “평단보다 쌀 때만 산다”가 자동.</li>
+            <li>작은수(평단 주문)는 사라짐.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>매도 — 전·후반전 공통 (매일 2개)</h3>
+      <div class="split">
+        <div class="box" style="border-top:3px solid var(--good)">
+          <div class="tag" style="color:var(--good)">주문 ①</div>
+          <h4>1/4 수량 → 별% LOC 매도</h4>
+          <p style="font-size:14.5px;color:var(--ink-2);margin:0">보유 수량의 <b>1/4</b>을 별지점 가격에 LOC 매도. 후반전엔 별%가 음수라 이 매도가 평단 아래에서 걸려 <b>일부 손절이 자동 내장</b>됩니다.</p>
+        </div>
+        <div class="box" style="border-top:3px solid var(--good)">
+          <div class="tag" style="color:var(--good)">주문 ②</div>
+          <h4>3/4 수량 → +10% 지정가 매도</h4>
+          <p style="font-size:14.5px;color:var(--ink-2);margin:0">나머지 <b>3/4</b>을 평단 +10% 지정가에 매도. 이게 체결되면 사실상 <b>사이클 익절</b>입니다.</p>
+        </div>
+      </div>
+      <div class="callout warn" style="margin-top:18px">
+        <span class="ic">흔한 오해</span>
+        <div><p>비율이 자주 뒤집혀 인용됩니다. 정확히는 <b>1/4 = 별% LOC 매도, 3/4 = +10% 지정가 매도</b>입니다 (그 반대가 아님). 또 매수 큰수와 매도 1/4이 같은 별지점에 겹치지 않도록, <b>매수 주문가는 별지점 − $0.01</b>로 살짝 낮춰 겹침을 방지합니다.</p></div>
+      </div>
+
+      <h3>40분할 소진 시 — 쿼터손절 (39 &lt; T ≤ 40)</h3>
+      <ol class="steps">
+        <li><b>1/4 MOC 매도</b>로 보유 수량의 1/4을 무조건 정리해 자금을 확보합니다.</li>
+        <li>남은 자금 + 그동안의 수익금을 <b>10분할</b>해 새 1회치로 정합니다 (기존 1회매수액을 넘기지 않음).</li>
+        <li>매수는 <b>−10% LOC</b>로 진행하며, 1~10회 동안 1/4은 −10% LOC 매도·3/4은 +10% 지정가 매도를 겁니다.</li>
+        <li>가격이 회복돼 매도가 체결되면 <b>후반전 모드로 복귀</b>, 아니면 쿼터손절을 이어갑니다.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- §5 sample -->
+  <section id="sample">
+    <div class="wrap">
+      <div class="col sec-head">
+        <div class="eyebrow">05 — 실전 샘플</div>
+        <h2>SOXL 한 사이클 매매 원장</h2>
+        <p class="lede">원금 <b class="num">$40,000</b>을 40분할(1회매수액 <b class="num">Q=$1,000</b>)해 SOXL을 매매한 한 사이클입니다. 종가가 하락하며 평단을 낮추다, 반등해 <b>+10% 익절</b>로 사이클이 끝납니다. <b class="cell-small">작은수</b>·<b class="cell-big">큰수</b> 주문가와 체결이 매일 구분되어 있습니다.</p>
+      </div>
+
+      <div class="col">
+        <figure>
+          <div class="chart-card">
+            <p class="chart-title">종가 · 평단 · 큰수/작은수 주문가 — 평단이 어떻게 끌려 내려가는가</p>
+            <p class="chart-sub">파란 밴드(작은수=평단)와 주황 점선(큰수=별지점) 사이 어디에 종가가 찍히느냐로 그날 매수량이 정해진다.</p>
+            <div class="chart-scroll"><svg id="cycleChart" viewBox="0 0 720 340" role="img" aria-label="15일간 SOXL 종가, 평단, 큰수/작은수 주문가와 매수·매도 체결 지점"></svg></div>
+            <div class="legend">
+              <span><i class="dot" style="background:var(--ink)"></i> 종가</span>
+              <span><i style="background:var(--small)"></i> 평단 (작은수 주문가)</span>
+              <span><i style="background:var(--big);height:0;border-top:2px dashed var(--big)"></i> 별지점 (큰수 주문가)</span>
+              <span><i class="dot" style="background:var(--good)"></i> 매도 체결</span>
+            </div>
+          </div>
+        </figure>
+      </div>
+
+      <div class="table-scroll" style="margin-top:8px">
+        <table id="ledger">
+          <caption>표 1 — SOXL v2.2 매매 원장 (교육용 시뮬레이션 · LOC는 <b>종가에 체결</b>, 주문가는 “체결 여부의 문턱”)</caption>
+          <thead>
+            <tr>
+              <th>일차</th>
+              <th>종가 $</th>
+              <th>구간</th>
+              <th>T</th>
+              <th>별%</th>
+              <th title="작은수 = 평단 LOC 주문가">작은수 $</th>
+              <th title="큰수 = 별지점 LOC 주문가">큰수 $</th>
+              <th>매수 (작은수/큰수)</th>
+              <th>매도</th>
+              <th>평단 $</th>
+              <th>보유</th>
+              <th class="note-cell">그날 일어난 일</th>
+            </tr>
+          </thead>
+          <tbody id="ledgerBody"></tbody>
+        </table>
+      </div>
+
+      <div class="col">
+        <div class="stats">
+          <div class="stat"><div class="n num">15일</div><div class="l">사이클 길이 (거래일)</div></div>
+          <div class="stat"><div class="n num">T 6.4 / 40</div><div class="l">최대 소진 회차 (원금의 16%)</div></div>
+          <div class="stat good"><div class="n num">+$794</div><div class="l">사이클 실현손익</div></div>
+          <div class="stat good"><div class="n num">+2.0%</div><div class="l">원금 대비 수익률 (1사이클)</div></div>
+        </div>
+        <div class="callout note" style="margin-top:18px">
+          <span class="ic">읽는 법</span>
+          <div>
+            <p><b>2~9일차:</b> 종가가 평단 이하로 자주 끝나 <span class="cell-small">작은수+큰수</span>가 함께 체결(하루 1회분), 평단이 <span class="num">142 → 136</span>대로 빠르게 내려갑니다. 이게 무한매수법의 핵심 — <b>내릴 때 더 담아 평단을 끌어내리기</b>.</p>
+            <p><b>10·14일차:</b> 종가가 별지점을 넘어서자 <span class="cell-sell">1/4 별% LOC 매도</span>가 체결돼 일부를 이익 실현하고 T가 줄어듭니다(매도하면 누적매수액이 줄어 회차가 되감김).</p>
+            <p><b>15일차:</b> 종가 <span class="num">$153.2</span>가 평단(<span class="num">$137.2</span>) +10%를 넘겨 <span class="cell-sell">3/4 지정가 매도까지 전량 체결</span> → 사이클 종료, 다음 날 다시 1회차부터 시작합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §6 versions -->
+  <section id="versions">
+    <div class="wrap col">
+      <div class="sec-head">
+        <div class="eyebrow">06 — 계보</div>
+        <h2>버전 비교 (v1 → v2.2 → v3.0)</h2>
+        <p class="lede">규칙은 “하락장에서 더 오래 버티도록” 진화해 왔습니다. 버전마다 공식이 다르니 <b>섞어 쓰면 안 됩니다</b>.</p>
+      </div>
+      <div class="table-scroll">
+        <table class="vtable">
+          <thead>
+            <tr><th>항목</th><th>v1 (2021, 오리지널)</th><th>v2.2 (2022.12)</th><th>v3.0 (2024)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>분할</td><td>40분할 (단리)</td><td>40분할 (단리)</td><td>20분할, 수익금 즉시 복리</td></tr>
+            <tr><td>큰수 주문가</td><td>시중가 +10~15% (고정)</td><td>별지점 = 평단×(1+별%/100), 별%=(10−T/2)%</td><td>별% = TQQQ (15−1.5T)%, SOXL (20−2T)%</td></tr>
+            <tr><td>작은수 주문가</td><td>평단 (0%)</td><td>평단 (전반전만)</td><td>평단 (전반전만)</td></tr>
+            <tr><td>전·후반 전환</td><td>없음</td><td>T=20에서 연속적으로</td><td>T=10에서 (20분할)</td></tr>
+            <tr><td>매도</td><td>평단 +10% 전량 지정가 (분할 없음)</td><td>1/4 별% LOC + 3/4 +10% 지정가</td><td>1/4 별% LOC + 3/4 TQQQ +15% / SOXL +20% 지정가</td></tr>
+            <tr><td>소진 대응</td><td>단일 룰 없음 (대기 / 영혼법 등)</td><td>쿼터손절 모드 (39&lt;T≤40)</td><td>쿼터모드 (19&lt;T&lt;20)</td></tr>
+            <tr><td>성향</td><td>단순·직관</td><td>안정적 생존에 최적화</td><td>강세장 수익률 극대화</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted);margin-top:12px">※ 이 자료의 매매 샘플은 가장 널리 쓰이는 <b>v2.2 (40분할)</b> 기준입니다. 검색엔진 요약이 v2.2에 v3.0 공식 <span class="num">(15−1.5T)%</span>를 잘못 붙이는 경우가 흔하니 주의하세요.</p>
+    </div>
+  </section>
+
+  <!-- §7 risk -->
+  <section id="risk">
+    <div class="wrap col">
+      <div class="sec-head">
+        <div class="eyebrow">07 — 반드시 알아야 할 것</div>
+        <h2>리스크와 한계</h2>
+        <p class="lede">무한매수법은 “필승법”이 아닙니다. 3배 레버리지를 다루는 <b>초고위험</b> 전략이며, 원금 전액 손실이 가능합니다.</p>
+      </div>
+
+      <div class="callout danger">
+        <span class="ic">핵심 위험</span>
+        <div><p><b>대세 하락장이 오면 40회 분할을 다 쓰기 전에 익절을 못 한 채 원금이 소진</b>되고, 그 상태에서 3배 ETF가 계속 빠지면 평가손실이 눈덩이처럼 불어납니다. 2022년 하락장에서 SOXL은 고점 대비 −80%대까지 빠졌고, 많은 참여자가 40분할 소진·물림을 겪었습니다. ‘쿼터손절’ 규칙은 바로 이 국면을 버티기 위해 도입됐습니다.</p></div>
+      </div>
+
+      <h3>변동성 끌림 (Volatility Decay)</h3>
+      <p>3배 ETF는 <b>일간</b> 수익률의 3배를 추종할 뿐, 기간 누적으로 3배가 아닙니다. 지수가 오르내리기만 반복해도 레버리지 상품은 원금이 깎입니다.</p>
+      <figure>
+        <div class="chart-card">
+          <p class="chart-title">지수가 제자리로 돌아와도 3배 ETF는 손실 — 변동성 끌림</p>
+          <p class="chart-sub">기초지수가 −10% 뒤 +11.1%로 원위치(100→90→100)해도, 3배 ETF는 100 아래로 내려온다.</p>
+          <div class="chart-scroll"><svg id="decayChart" viewBox="0 0 720 280" role="img" aria-label="기초지수는 100으로 복귀하지만 3배 ETF는 96.7로 손실이 남는 막대 비교"></svg></div>
+          <div class="legend">
+            <span><i style="background:var(--accent)"></i> 기초지수 (1배)</span>
+            <span><i style="background:var(--bad)"></i> 3배 레버리지 ETF</span>
+          </div>
+        </div>
+      </figure>
+
+      <h3>원금 관리 · 비용 · 실행 체크리스트</h3>
+      <div class="cards">
+        <div class="card"><div class="k">자산 배분</div><div class="v">여윳돈 · 계좌 분리</div><p>전 재산을 넣지 말고, 잃어도 되는 자금만. 종목별로 원금·계좌를 분리해 섞지 않습니다.</p></div>
+        <div class="card"><div class="k">세금</div><div class="v">해외주식 양도세 22%</div><p>연간 손익통산 후 250만 원 초과분에 22%. 매 사이클 +10% 익절이 반복돼 공제 한도를 빠르게 넘으니 <b>세후 수익률</b>로 봐야 합니다.</p></div>
+        <div class="card"><div class="k">수수료</div><div class="v">왕복 · 매일 매매</div><p>40분할·매일 매매라 거래 건수가 많습니다. 수수료 우대 계좌를 확인하세요.</p></div>
+        <div class="card"><div class="k">환전</div><div class="v">달러 · 환헤지 없음</div><p>미국 ETF라 원→달러 환전이 첫 단계. 환율 변동이 원화 수익률에 그대로 얹힙니다.</p></div>
+        <div class="card"><div class="k">주문 실행</div><div class="v">LOC 지원 확인</div><p>증권사마다 미국주식 LOC·예약주문 지원과 시간대가 다릅니다. 시작 전 필수 확인.</p></div>
+        <div class="card"><div class="k">상장폐지</div><div class="v">레버리지 ETP 위험</div><p>급락 시 관리·상장폐지 사례가 있습니다(과거 원유 3배 ETN 등). 종목 건전성도 살펴야 합니다.</p></div>
+      </div>
+
+      <div class="callout warn" style="margin-top:22px">
+        <span class="ic">면책</span>
+        <div><p>이 문서는 <b>교육용 정리 자료</b>이며 투자 권유가 아닙니다. 수치와 매매 원장은 공개된 2차 자료를 교차검증해 재구성한 <b>예시 시뮬레이션</b>으로, 실제 체결·수수료·세금·슬리피지를 반영하지 않습니다. 규칙 세부(라운딩·첫날 진입·매도 후 T 재계산 등)는 출처마다 조금씩 달라, 실제 운용 전 라오어의 원 저서·카페 원문을 반드시 확인하세요.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap col">
+      <h3>주요 출처 (교차검증)</h3>
+      <ol>
+        <li>라오어, 『라오어의 미국주식 무한매수법』, 알키, 2021 — 원 저서 (v1)</li>
+        <li>quantstack.app — 무한매수법 v2.2 / V4.0 방법론 페이지 (별% 공식·쿼터손절)</li>
+        <li>pbdfinance.com — 무한매수법 v2.2 / v3.0 방법론 완벽정리</li>
+        <li>sweetvi.tistory.com (즐투라) — v2.2 변경사항·T값 계산 예시</li>
+        <li>truedonshow.com (튜레이터) — v1/v2/v2.1 원큐정리, 큰수매수·평단매수 정의</li>
+        <li>stockanalysis.com / 운용사 보도자료 — SOLX·SOXL 티커·시세 확인</li>
+      </ol>
+      <p style="margin-top:20px;color:var(--muted);font-size:13px">규칙은 2차 자료 기반이며 원본은 라오어의 저서·네이버 카페 글입니다. · 매매 원장은 검증된 v2.2 공식으로 계산한 교육용 시뮬레이션.</p>
+    </div>
+  </footer>
+</main>
+
+<div class="tt" id="tt" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---- sample ledger data (v2.2, computed & verified) ----
+  var ROWS = [
+    {day:1, close:142.00, phase:"진입", T:0.99, star:null, small:null, big:null, sb:0, bb:0, sell:0, avg:142.00, sh:7, kind:"buy1", note:"1일차: 1회분을 시장가로 진입해 평단을 만든다"},
+    {day:2, close:138.50, phase:"전반전", T:1.0, star:9.5, small:142.00, big:155.48, sb:3, bb:3, sell:0, avg:140.38, sh:13, kind:"buy1", note:"종가 ≤ 평단 → 작은수+큰수 모두 체결(1회분)"},
+    {day:3, close:135.00, phase:"전반전", T:1.9, star:9.05, small:140.38, big:153.08, sb:3, bb:3, sell:0, avg:138.68, sh:19, kind:"buy1", note:"종가 ≤ 평단 → 작은수+큰수 모두 체결(1회분)"},
+    {day:4, close:139.20, phase:"전반전", T:2.7, star:8.65, small:138.68, big:150.67, sb:0, bb:3, sell:0, avg:138.75, sh:22, kind:"half", note:"평단 < 종가 ≤ 별지점 → 큰수만 체결(0.5회분)"},
+    {day:5, close:133.80, phase:"전반전", T:3.1, star:8.45, small:138.75, big:150.47, sb:3, bb:3, sell:0, avg:137.69, sh:28, kind:"buy1", note:"종가 ≤ 평단 → 작은수+큰수 모두 체결(1회분)"},
+    {day:6, close:131.50, phase:"전반전", T:3.9, star:8.05, small:137.69, big:148.77, sb:3, bb:3, sell:0, avg:136.60, sh:34, kind:"buy1", note:"종가 ≤ 평단 → 작은수+큰수 모두 체결(1회분)"},
+    {day:7, close:136.40, phase:"전반전", T:4.7, star:7.65, small:136.60, big:147.04, sb:3, bb:3, sell:0, avg:136.57, sh:40, kind:"buy1", note:"종가 ≤ 평단 → 작은수+큰수 모두 체결(1회분)"},
+    {day:8, close:134.00, phase:"전반전", T:5.5, star:7.25, small:136.57, big:146.46, sb:3, bb:3, sell:0, avg:136.23, sh:46, kind:"buy1", note:"종가 ≤ 평단 → 작은수+큰수 모두 체결(1회분)"},
+    {day:9, close:137.90, phase:"전반전", T:6.3, star:6.85, small:136.23, big:145.56, sb:0, bb:3, sell:0, avg:136.34, sh:49, kind:"half", note:"평단 < 종가 ≤ 별지점 → 큰수만 체결(0.5회분)"},
+    {day:10, close:145.60, phase:"전반전", T:6.7, star:6.65, small:136.34, big:145.39, sb:0, bb:0, sell:12, avg:136.34, sh:37, kind:"sell", note:"종가 ≥ 별지점 → 1/4(12주) 별% LOC 부분매도 (매수 미체결, T 되감김)"},
+    {day:11, close:140.10, phase:"전반전", T:5.1, star:7.45, small:136.34, big:146.48, sb:0, bb:3, sell:0, avg:136.62, sh:40, kind:"half", note:"평단 < 종가 ≤ 별지점 → 큰수만 체결(0.5회분)"},
+    {day:12, close:138.30, phase:"전반전", T:5.5, star:7.25, small:136.62, big:146.51, sb:0, bb:3, sell:0, avg:136.74, sh:43, kind:"half", note:"평단 < 종가 ≤ 별지점 → 큰수만 체결(0.5회분)"},
+    {day:13, close:144.20, phase:"전반전", T:5.9, star:7.05, small:136.74, big:146.37, sb:0, bb:3, sell:0, avg:137.22, sh:46, kind:"half", note:"평단 < 종가 ≤ 별지점 → 큰수만 체결(0.5회분)"},
+    {day:14, close:148.50, phase:"전반전", T:6.4, star:6.8, small:137.22, big:146.54, sb:0, bb:0, sell:11, avg:137.22, sh:35, kind:"sell", note:"종가 ≥ 별지점 → 1/4(11주) 별% LOC 부분매도"},
+    {day:15, close:153.20, phase:"익절", T:4.9, star:7.55, small:null, big:null, sb:0, bb:0, sell:35, avg:137.22, sh:0, kind:"exit", note:"★ 종가 ≥ 평단+10% → 3/4 지정가 + 1/4 별% LOC 전량 체결, 실현손익 +$559 → 사이클 종료"}
+  ];
+
+  var tt = document.getElementById("tt");
+  function showTip(html, x, y) {
+    tt.innerHTML = html;
+    tt.style.opacity = "1";
+    var w = tt.offsetWidth, h = tt.offsetHeight;
+    var left = x + 14; if (left + w > window.innerWidth - 8) left = x - w - 14;
+    var top = y - h - 12; if (top < 8) top = y + 16;
+    tt.style.left = left + "px"; tt.style.top = top + "px";
+  }
+  function hideTip(){ tt.style.opacity = "0"; }
+
+  function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function el(name, attrs){ var e = document.createElementNS(SVGNS, name); if(attrs) for(var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+
+  // ---------- build ledger table ----------
+  (function(){
+    var tb = document.getElementById("ledgerBody");
+    ROWS.forEach(function(r){
+      var tr = document.createElement("tr");
+      tr.className = "row-" + r.kind;
+      function td(html, cls){ var c=document.createElement("td"); if(cls)c.className=cls; c.innerHTML=html; tr.appendChild(c); }
+      td(r.day);
+      td(r.close.toFixed(2));
+      td(r.phase);
+      td(r.T.toFixed(1));
+      td(r.star==null? "–" : (r.star>0?"+":"")+r.star.toFixed(2)+"%");
+      td(r.small==null? "–" : r.small.toFixed(2), "cell-small");
+      td(r.big==null? "–" : r.big.toFixed(2), "cell-big");
+      var buy = "";
+      if(r.sb||r.bb){
+        if(r.sb) buy += '<span class="cell-small">'+r.sb+'</span>';
+        if(r.sb&&r.bb) buy += " / ";
+        if(r.bb) buy += '<span class="cell-big">'+r.bb+'</span>';
+        buy += " 주";
+      } else buy = "–";
+      td(buy);
+      td(r.sell? '<span class="cell-sell">'+r.sell+' 주</span>' : "–");
+      td(r.avg.toFixed(2));
+      td(r.sh);
+      td(r.note, "note-cell");
+      tb.appendChild(tr);
+    });
+  })();
+
+  // ---------- star% curve ----------
+  function drawStar(){
+    var svg = document.getElementById("starChart"); svg.innerHTML="";
+    var W=720,H=300, m={l:52,r:20,t:18,b:40};
+    var x0=m.l, x1=W-m.r, y0=H-m.b, y1=m.t;
+    var Tx=function(T){ return x0 + (T/40)*(x1-x0); };
+    var Sy=function(s){ return y0 + ( (s-(-10)) / (10-(-10)) ) * (y1-y0); }; // -10..10
+    // grid + y labels
+    [-10,-5,0,5,10].forEach(function(s){
+      var y=Sy(s);
+      svg.appendChild(el("line",{x1:x0,y1:y,x2:x1,y2:y,stroke:css("--hair"),"stroke-width":1}));
+      var t=el("text",{x:x0-8,y:y+4,"text-anchor":"end",fill:css("--muted"),"font-size":11,"font-family":"var(--mono)"});
+      t.textContent=(s>0?"+":"")+s+"%"; svg.appendChild(t);
+    });
+    [0,10,20,30,40].forEach(function(T){
+      var x=Tx(T);
+      var t=el("text",{x:x,y:y0+22,"text-anchor":"middle",fill:css("--muted"),"font-size":11,"font-family":"var(--mono)"});
+      t.textContent="T="+T; svg.appendChild(t);
+    });
+    // zero line emphasis
+    svg.appendChild(el("line",{x1:x0,y1:Sy(0),x2:x1,y2:Sy(0),stroke:css("--hair-strong"),"stroke-width":1.5}));
+    // boundary T=20
+    var bx=Tx(20);
+    svg.appendChild(el("line",{x1:bx,y1:y1,x2:bx,y2:y0,stroke:css("--accent"),"stroke-width":1.5,"stroke-dasharray":"4 4",opacity:.7}));
+    var bl=el("text",{x:bx+6,y:y1+14,fill:css("--accent"),"font-size":11,"font-weight":700,"font-family":"var(--mono)"}); bl.textContent="T=20 · 전/후반 경계"; svg.appendChild(bl);
+    // phase labels
+    var fh=el("text",{x:(x0+bx)/2,y:y1+2,"text-anchor":"middle",fill:css("--muted"),"font-size":11}); fh.textContent="전반전 (별% > 0)"; svg.appendChild(fh);
+    var sh=el("text",{x:(bx+x1)/2,y:y0-8,"text-anchor":"middle",fill:css("--muted"),"font-size":11}); sh.textContent="후반전 (별% ≤ 0)"; svg.appendChild(sh);
+    // line
+    var d="";
+    for(var T=0;T<=40;T+=0.5){ var s=10-T/2; d += (T===0?"M":"L")+Tx(T).toFixed(1)+" "+Sy(s).toFixed(1)+" "; }
+    svg.appendChild(el("path",{d:d,fill:"none",stroke:css("--big"),"stroke-width":2.5,"stroke-linecap":"round"}));
+    // marker dots
+    [[6,7],[13,3.5],[21,-0.5],[38,-9]].forEach(function(p){
+      var g=el("circle",{cx:Tx(p[0]),cy:Sy(p[1]),r:4,fill:css("--big"),stroke:css("--surface"),"stroke-width":2});
+      svg.appendChild(g);
+    });
+  }
+
+  // ---------- cycle chart ----------
+  function drawCycle(){
+    var svg=document.getElementById("cycleChart"); svg.innerHTML="";
+    var W=720,H=340,m={l:46,r:16,t:16,b:34};
+    var x0=m.l,x1=W-m.r,y0=H-m.b,y1=m.t;
+    var lo=129, hi=156;
+    var Xx=function(i){ return x0 + (i/(ROWS.length-1))*(x1-x0); };
+    var Yy=function(v){ return y0 + ((v-lo)/(hi-lo))*(y1-y0); };
+    // grid
+    [130,135,140,145,150,155].forEach(function(v){
+      var y=Yy(v);
+      svg.appendChild(el("line",{x1:x0,y1:y,x2:x1,y2:y,stroke:css("--hair"),"stroke-width":1}));
+      var t=el("text",{x:x0-8,y:y+4,"text-anchor":"end",fill:css("--muted"),"font-size":10.5,"font-family":"var(--mono)"});
+      t.textContent="$"+v; svg.appendChild(t);
+    });
+    ROWS.forEach(function(r,i){
+      if(i%2===0||i===ROWS.length-1){
+        var t=el("text",{x:Xx(i),y:y0+20,"text-anchor":"middle",fill:css("--muted"),"font-size":10.5,"font-family":"var(--mono)"});
+        t.textContent="D"+r.day; svg.appendChild(t);
+      }
+    });
+    // big (별지점) dashed line — only where defined
+    var db="";var started=false;
+    ROWS.forEach(function(r,i){ if(r.big!=null){ db+=(!started?"M":"L")+Xx(i).toFixed(1)+" "+Yy(r.big).toFixed(1)+" "; started=true;} else started=false; });
+    svg.appendChild(el("path",{d:db,fill:"none",stroke:css("--big"),"stroke-width":2,"stroke-dasharray":"5 4",opacity:.85}));
+    // avg (평단 / 작은수) line
+    var da="";
+    ROWS.forEach(function(r,i){ da+=(i===0?"M":"L")+Xx(i).toFixed(1)+" "+Yy(r.avg).toFixed(1)+" "; });
+    svg.appendChild(el("path",{d:da,fill:"none",stroke:css("--small"),"stroke-width":2.5,"stroke-linecap":"round","stroke-linejoin":"round"}));
+    // close line
+    var dc="";
+    ROWS.forEach(function(r,i){ dc+=(i===0?"M":"L")+Xx(i).toFixed(1)+" "+Yy(r.close).toFixed(1)+" "; });
+    svg.appendChild(el("path",{d:dc,fill:"none",stroke:css("--ink"),"stroke-width":2,"stroke-linecap":"round","stroke-linejoin":"round",opacity:.9}));
+    // close dots + hit targets
+    ROWS.forEach(function(r,i){
+      var cx=Xx(i),cy=Yy(r.close);
+      var isSell = r.sell>0;
+      var dot=el("circle",{cx:cx,cy:cy,r:isSell?5:3.5,fill:isSell?css("--good"):css("--ink"),stroke:css("--surface"),"stroke-width":2});
+      svg.appendChild(dot);
+      // invisible hit target
+      var hit=el("rect",{x:cx-16,y:y1,width:32,height:y0-y1,fill:"transparent"});
+      (function(rr){
+        function move(ev){
+          var pt=ev.touches?ev.touches[0]:ev;
+          var buy = (rr.sb||rr.bb) ? ("작은수 "+rr.sb+" / 큰수 "+rr.bb+"주") : (rr.sell? ("매도 "+rr.sell+"주") : "체결 없음");
+          showTip(
+            "<b>D"+rr.day+" · "+rr.phase+"</b><br>"+
+            "종가 $"+rr.close.toFixed(2)+"<br>"+
+            "평단(작은수) $"+rr.avg.toFixed(2)+(rr.big!=null?"<br>별지점(큰수) $"+rr.big.toFixed(2):"")+"<br>"+
+            (rr.star!=null?"T="+rr.T.toFixed(1)+" · 별% "+(rr.star>0?"+":"")+rr.star.toFixed(2)+"%<br>":"")+
+            buy, pt.clientX, pt.clientY);
+        }
+        hit.addEventListener("mousemove",move);
+        hit.addEventListener("mouseenter",move);
+        hit.addEventListener("touchstart",move,{passive:true});
+        hit.addEventListener("mouseleave",hideTip);
+        hit.addEventListener("touchend",hideTip);
+      })(r);
+      svg.appendChild(hit);
+    });
+  }
+
+  // ---------- volatility decay ----------
+  function drawDecay(){
+    var svg=document.getElementById("decayChart"); svg.innerHTML="";
+    var W=720,H=280,m={l:48,r:16,t:18,b:52};
+    var x0=m.l,x1=W-m.r,y0=H-m.b,y1=m.t;
+    var lo=60,hi=105;
+    var Yy=function(v){ return y0 + ((v-lo)/(hi-lo))*(y1-y0); };
+    // 지수: 100 -> 90 (-10%) -> 100 (+11.1%)
+    // 3x:   100 -> 70 (-30%) -> 70*1.333=93.33... use daily 3x of +11.1% = +33.3% -> 93.3
+    var groups=[
+      {label:"시작", idx:100, lev:100},
+      {label:"−10% 하락 후", idx:90, lev:70},
+      {label:"+11.1% 반등 후 (지수 원위치)", idx:100, lev:93.33}
+    ];
+    [60,70,80,90,100].forEach(function(v){
+      var y=Yy(v);
+      svg.appendChild(el("line",{x1:x0,y1:y,x2:x1,y2:y,stroke:css("--hair"),"stroke-width":1}));
+      var t=el("text",{x:x0-8,y:y+4,"text-anchor":"end",fill:css("--muted"),"font-size":11,"font-family":"var(--mono)"}); t.textContent=v; svg.appendChild(t);
+    });
+    svg.appendChild(el("line",{x1:x0,y1:Yy(100),x2:x1,y2:Yy(100),stroke:css("--hair-strong"),"stroke-width":1.5,"stroke-dasharray":"3 3"}));
+    var gw=(x1-x0)/groups.length, bw=42, gap=10;
+    groups.forEach(function(g,i){
+      var cx=x0+gw*i+gw/2;
+      function bar(val,color,off,label){
+        var y=Yy(val), h=y0-y, x=cx+off;
+        var rect=el("rect",{x:x,y:y,width:bw,height:Math.max(h,0),rx:4,fill:color});
+        svg.appendChild(rect);
+        var t=el("text",{x:x+bw/2,y:y-6,"text-anchor":"middle",fill:color,"font-size":11.5,"font-weight":700,"font-family":"var(--mono)"});
+        t.textContent=label; svg.appendChild(t);
+      }
+      bar(g.idx, css("--accent"), -(bw+gap)/2, g.idx.toFixed(g.idx%1?1:0));
+      bar(g.lev, css("--bad"), (gap)/2, g.lev.toFixed(g.lev%1?1:0));
+      var lab=el("text",{x:cx,y:y0+22,"text-anchor":"middle",fill:css("--ink-2"),"font-size":11});
+      lab.textContent=g.label;
+      // wrap long label
+      if(g.label.length>10){ lab.textContent="";
+        var parts=g.label.split(" ");
+        var l1=el("tspan",{x:cx,dy:0}); l1.textContent=parts.slice(0,2).join(" ");
+        var l2=el("tspan",{x:cx,dy:14}); l2.textContent=parts.slice(2).join(" ");
+        lab.appendChild(l1); lab.appendChild(l2);
+      }
+      svg.appendChild(lab);
+    });
+    // annotation
+    var an=el("text",{x:x1,y:Yy(93.33)-10,"text-anchor":"end",fill:css("--bad"),"font-size":12,"font-weight":700});
+    an.textContent="지수는 0%인데 3배 ETF는 −6.7%"; svg.appendChild(an);
+  }
+
+  function drawAll(){ drawStar(); drawCycle(); drawDecay(); }
+  drawAll();
+
+  // redraw on theme toggle / resize (colors read from CSS vars)
+  var mo = new MutationObserver(drawAll);
+  mo.observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+  if(window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll);
+  var rt; window.addEventListener("resize", function(){ clearTimeout(rt); rt=setTimeout(drawAll,150); });
+})();
+</script>
