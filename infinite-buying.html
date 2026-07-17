@@ -291,6 +291,14 @@
   <section style="padding-top:40px;padding-bottom:40px;">
     <div class="wrap col">
       <div class="callout note">
+        <span class="ic">원작자·고지</span>
+        <div>
+          <p><b>원작자</b> — 무한매수법의 원저자는 필명 <b>라오어</b>이며, 원전은 『라오어의 미국주식 무한매수법』(알키, 2021 · ISBN 9791165795788)입니다. 이 저장소는 원작자·출판사(알키)와 <b>무관한 비공식 학습 정리본</b>입니다.</p>
+          <p><b>교육용 2차 자료</b> — 원저서를 읽고 개인 학습·정리 차원에서 만든 비공식 교육 자료이며 <b>투자 권유가 아닙니다</b>. 아래 매매 원장은 교육용 예시(시뮬레이션)로, 원서의 실제 공식·권장값과 다를 수 있습니다.</p>
+          <p><b>삭제 요청</b> — 원작자 또는 권리자가 원하시면 요청 즉시 이 자료를 내리거나 삭제하겠습니다. (저장소 이슈 또는 관리자 연락)</p>
+        </div>
+      </div>
+      <div class="callout note">
         <span class="ic">티커 확인</span>
         <div>
           <p>요청하신 <b>“SOLX”</b>는 실제로 존재하는 티커입니다 — 2025년 12월 상장된 <b>T-REX 2X Long SOL</b>(솔라나 <b>2배</b> 레버리지 ETF). 다만 시가총액 수십만 달러·일거래량 수천 주 수준의 초소형·저유동성 상품이라, 매일 40회 분할 LOC 주문을 넣는 무한매수법에는 맞지 않습니다.</p>
@@ -346,7 +354,7 @@
         <li><span class="term">1회매수액<span class="mono">Q = 원금 ÷ 40</span></span><span class="def">하루에 매수를 “시도”하는 금액. 원금의 2.5%.</span></li>
         <li><span class="term">평단<span class="mono">평균 매수 단가</span></span><span class="def">지금까지 산 물량의 평균 가격. 매일 갱신됩니다.</span></li>
         <li><span class="term">LOC 주문<span class="mono">Limit On Close</span></span><span class="def">종가(장 마감가)에만 체결되는 지정가 주문. <b>매수는 종가 ≤ 지정가</b>일 때, <b>매도는 종가 ≥ 지정가</b>일 때 체결. 밤사이 자동 실행되어 규칙을 대신 지켜줍니다.</span></li>
-        <li><span class="term">T값 (회차)<span class="mono">T = 누적매수액 ÷ Q</span></span><span class="def">지금까지 원금의 몇 회차만큼 썼는지. T가 20이면 원금의 절반을 소진(진행률 50%). <span class="num">소수 둘째 자리에서 올림</span>(원문 기준).</span></li>
+        <li><span class="term">T값 (회차)<span class="mono">T = 누적매수액 ÷ Q</span></span><span class="def">지금까지 원금의 몇 회차만큼 썼는지. T가 20이면 원금의 절반을 소진(진행률 50%). <b>라운딩은 출처마다 상이</b> — 과거 자료는 <span class="num">소수 둘째 자리 올림</span>, 일부 최신 정리(quantstack, 2024-09 업데이트)는 <span class="num">소수 셋째 자리 반올림</span>으로 기술합니다. 실제 운용 시 원문 확인 필요.</span></li>
         <li><span class="term">별% (☆%)<span class="mono">별% = (10 − T/2)%</span></span><span class="def">v2.2에서 매수·매도 가격을 정하는 핵심 값. 진행될수록(=T 증가) 작아져, 후반엔 음수가 됩니다. 기준 가격 <b>별지점 = 평단 × (1 + 별%/100)</b>.</span></li>
         <li><span class="term" style="color:var(--big)">큰수 · 작은수<span class="mono">이 자료의 초점</span></span><span class="def">매일 거는 두 개의 매수 주문. 가격이 <b>높은</b> 쪽이 큰수, <b>낮은</b> 쪽이 작은수. 다음 장에서 자세히.</span></li>
       </ul>
@@ -569,6 +577,14 @@
         </table>
       </div>
       <p style="font-size:13.5px;color:var(--muted);margin-top:12px">※ 이 자료의 매매 샘플은 가장 널리 쓰이는 <b>v2.2 (40분할)</b> 기준입니다. 검색엔진 요약이 v2.2에 v3.0 공식 <span class="num">(15−1.5T)%</span>를 잘못 붙이는 경우가 흔하니 주의하세요.</p>
+
+      <h3>사이 버전(v2·v2.1)은 무엇이 바뀌었나</h3>
+      <p style="font-size:14.5px;color:var(--ink-2)">v1에서 v2.2로 곧장 간 게 아니라, 하락장 생존력을 조금씩 보태며 진화했습니다.</p>
+      <ul class="kv-list">
+        <li><span class="term">v2<span class="mono">2021 하반기</span></span><span class="def">진입 시 <b>RSI 참고</b>(과매도에서 시작), <b>LOC 큰수매수를 +5%로 제한</b>(v1의 +10~15%보다 보수적), <b>전반전·후반전</b>(진행률 50% 경계) 도입.</span></li>
+        <li><span class="term">v2.1<span class="mono">2022</span></span><span class="def"><b>LOC 매도를 신설·세분화</b>(전반전 +5% 25% 매도, 후반전 +0% 25% 매도). 매수 쏠림에 의한 종가 왜곡을 줄이고 현금흐름을 개선.</span></li>
+        <li><span class="term">파생 · TLP<span class="mono">아기돼지 삼형제</span></span><span class="def">계좌 3개로 매수 타이밍을 분산해 안정성을 높이는 변형. 무한매수법(단기)과 <b>밸류 리밸런싱(VR·장기)</b>은 계보가 다른 <b>별개 전략</b>입니다.</span></li>
+      </ul>
     </div>
   </section>
 
@@ -584,6 +600,21 @@
       <div class="callout danger">
         <span class="ic">핵심 위험</span>
         <div><p><b>대세 하락장이 오면 40회 분할을 다 쓰기 전에 익절을 못 한 채 원금이 소진</b>되고, 그 상태에서 3배 ETF가 계속 빠지면 평가손실이 눈덩이처럼 불어납니다. 2022년 하락장에서 SOXL은 고점 대비 −80%대까지 빠졌고, 많은 참여자가 40분할 소진·물림을 겪었습니다. ‘쿼터손절’ 규칙은 바로 이 국면을 버티기 위해 도입됐습니다.</p></div>
+      </div>
+
+      <h3>커뮤니티의 주요 비판과 반론</h3>
+      <p>무한매수법은 여러 각도에서 비판받아 왔습니다. 균형 잡힌 판단을 위해 함께 정리합니다(공개 커뮤니티 정리글 교차검증).</p>
+      <div class="cards">
+        <div class="card"><div class="k">회복의 산수</div><div class="v">−50% → +100%</div><p>3배 ETF가 −50% 빠지면 <b>+100%</b>, −70%면 +233%, −80%면 <b>+400%</b> 올라야 본전입니다. 40회 소진 뒤엔 추가 매수의 평단 인하 효과도 미미해집니다.</p></div>
+        <div class="card"><div class="k">긴 하락장 취약</div><div class="v">약 2달 내 반등 전제</div><p>40거래일(≈2달) 안에 반등을 못 하면 자본이 소진됩니다. 닷컴·리먼은 회복에 수년이 걸렸습니다.</p></div>
+        <div class="card"><div class="k">마틴게일 논란</div><div class="v">물타기 = 배팅 증액</div><p>하락 시 추가매수가 마틴게일(질수록 베팅 키우기) 성격이라는 지적. 손실은 커질 수 있고 이익은 대체로 본전권이라는 비판.</p></div>
+        <div class="card"><div class="k">UCA vs DCA</div><div class="v">사실상 정량 매수</div><p>매일 같은 ‘금액’이 아니라 ‘수량’에 가깝게 사는 구조(UCA)라, 순수 코스트 애버리징(DCA)보다 수익률이 낮을 수 있다는 지적.</p></div>
+        <div class="card"><div class="k">복잡성 증가</div><div class="v">‘하루 10분’과 멀어짐</div><p>버전이 거듭되며(RSI·부분손절·쿼터손절·계좌 분리) 초기 슬로건인 간편함이 옅어졌다는 평.</p></div>
+        <div class="card"><div class="k">원금 규모 의존</div><div class="v">시드가 커야 유효</div><p>인증된 큰 수익은 대체로 억대 원금 기준이라, 소액에서는 체감이 다르다는 냉소도 있습니다.</p></div>
+      </div>
+      <div class="callout warn" style="margin-top:18px">
+        <span class="ic">2022의 교훈</span>
+        <div><p>2022년 대세 하락장에서 TQQQ는 고점 대비 약 −70%, SOXL은 약 −80%까지 빠졌고, 이 시기 라오어의 카페·블로그 운영을 둘러싼 논란도 있었습니다(세부는 미검증 커뮤니티 주장). 이후의 규칙 변화(v2→v2.1→v2.2의 부분손절·쿼터손절)는 대부분 <b>이런 하락 국면을 더 오래 버티기 위한 생존 강화</b> 방향이었습니다. 반면 v3.0(20분할·복리·매도점 상향)은 반대로 <b>강세장 수익 극대화</b> 쪽이라, 정리 블로거들은 "숙면을 원하면 v2.2 유지"를 권하기도 합니다.</p></div>
       </div>
 
       <h3>변동성 끌림 (Volatility Decay)</h3>
@@ -612,7 +643,11 @@
 
       <div class="callout warn" style="margin-top:22px">
         <span class="ic">면책</span>
-        <div><p>이 문서는 <b>교육용 정리 자료</b>이며 투자 권유가 아닙니다. 수치와 매매 원장은 공개된 2차 자료를 교차검증해 재구성한 <b>예시 시뮬레이션</b>으로, 실제 체결·수수료·세금·슬리피지를 반영하지 않습니다. 규칙 세부(라운딩·첫날 진입·매도 후 T 재계산 등)는 출처마다 조금씩 달라, 실제 운용 전 라오어의 원 저서·카페 원문을 반드시 확인하세요.</p></div>
+        <div>
+          <p><b>원작자.</b> 이 전략의 원저작권은 필명 <b>라오어</b>에게 있으며, 원전은 『라오어의 미국주식 무한매수법』(알키, 2021)입니다. 이 저장소는 원작자·출판사와 무관한 <b>비공식 학습 정리본</b>입니다.</p>
+          <p><b>교육용.</b> 이 문서는 저서를 읽고 정리한 <b>교육용 2차 자료</b>이며 투자 권유가 아닙니다. 수치와 매매 원장은 공개된 2차 자료를 교차검증해 재구성한 <b>예시 시뮬레이션</b>으로, 실제 체결·수수료·세금·슬리피지를 반영하지 않습니다. 규칙 세부(라운딩·첫날 진입·매도 후 T 재계산 등)는 출처마다 조금씩 달라, 실제 운용 전 라오어의 원 저서·회원제 카페 원문을 반드시 확인하세요.</p>
+          <p><b>삭제 요청.</b> 원작자 또는 권리자가 원하시면 요청 즉시 이 자료를 내리거나 삭제하겠습니다.</p>
+        </div>
       </div>
     </div>
   </section>

@@ -1,5 +1,6 @@
-# OMC operational state (not part of the project)
+# Agent tooling operational state (not part of the project)
 .omc/
+.serena/
 
 # OS / editor cruft
 .DS_Store
