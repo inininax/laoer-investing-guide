@@ -6,10 +6,10 @@
 > **`CLAUDE.md`는 이 파일(`AGENTS.md`)을 가져오는(import) 한 줄짜리 얇은 파일입니다**
 > (`@AGENTS.md` — Claude Code 메모리 import 문법). 실제 내용은 이 파일 하나뿐이라
 > 두 문서가 서로 다르게 갈라질(drift) 수 없고, 심링크와 달리 Windows 체크아웃에서도
-> 깨지지 않습니다. 규칙은 항상 여기(그리고 `docs/rules/`)에서만 관리하세요.
+> 깨지지 않습니다. 규칙은 항상 여기(그리고 `.agents/rules/`)에서만 관리하세요.
 >
 > <sub>Claude Code·Gemini CLI는 `@AGENTS.md` import로, GitHub Copilot은 짧은 포인터 문서로,
-> OpenCode는 `AGENTS.md` 자동 로드 + `opencode.json` instructions(`docs/rules/*.md` 직접 주입)로
+> OpenCode는 `AGENTS.md` 자동 로드 + `opencode.json` instructions(`.agents/rules/**/*.md` 직접 주입)로
 > 연결돼 있습니다. 새 도구 진입점이 필요하면 같은 방식(`@AGENTS.md` 한 줄 우선)으로 추가하세요.</sub>
 
 ## 프로젝트 개요
@@ -32,9 +32,9 @@ README.md                # 프로젝트 소개·보는 법·출처·삭제 요�
 AGENTS.md                # (이 파일) 에이전트 공용 정본 안내서 — 유일한 실제 파일
 CLAUDE.md                # "@AGENTS.md" 한 줄 (Claude Code용 — AGENTS.md를 import)
 GEMINI.md                # "@AGENTS.md" 한 줄 (Gemini CLI용)
-.github/copilot-instructions.md  # GitHub Copilot용 포인터 (AGENTS.md·docs/rules 참조 안내)
-opencode.json            # OpenCode 설정 — docs/rules/*.md를 컨텍스트에 직접 주입
-docs/rules/              # 에이전트 공용 규칙 (아래 참조)
+.github/copilot-instructions.md  # GitHub Copilot용 포인터 (AGENTS.md·rules 참조 안내)
+opencode.json            # OpenCode 설정 — .agents/rules/**/*.md를 컨텍스트에 직접 주입
+.agents/rules/           # 토픽 단위 AI 규칙 (확장 포인트 — 추가 절차는 .agents/rules/README.md)
 ```
 
 각 HTML은 자기완결형입니다: `<style>`와 `<script>`가 파일 안에 인라인되어 있고,
@@ -56,21 +56,27 @@ python3 -m http.server 8000    # → http://localhost:8000
 빌드·테스트·린트 도구는 없습니다. **검증 순서:** ① JS 변경 시 `<script>` 내용을 추출해
 Node로 문법 확인 → ② 헤드리스 Chrome(`--dump-dom`)으로 콘솔 에러 0건·JS 생성
 차트·표 렌더링 확인 → ③ 브라우저에서 라이트/다크 전환·모바일 폭 확인.
-정확한 명령어는 [docs/rules/content-style.md](docs/rules/content-style.md)의 검증 섹션 참조.
+정확한 명령어는 [.agents/rules/content-style.md](.agents/rules/content-style.md)의 검증 섹션 참조.
 
 ## 공용 규칙 (반드시 준수)
 
-작업 전 아래 규칙 문서를 읽고 따르세요. Codex·Claude 공통입니다.
+작업 전 아래 규칙 문서를 읽고 따르세요. Codex·Claude·OpenCode 등 모든 도구 공통입니다.
 
-- **[docs/rules/attribution.md](docs/rules/attribution.md)** — ⭐ 원작자 명시 · 교육용 고지 ·
+- **[attribution.md](.agents/rules/attribution.md)** — ⭐ 원작자 명시 · 교육용 고지 ·
   삭제 요청 정책. **모든 콘텐츠에 3가지 고지를 반드시 유지.** (이 저장소의 최상위 규칙)
-- **[docs/rules/content-style.md](docs/rules/content-style.md)** — 콘텐츠 톤·사실성·출처,
+
+@.agents/rules/attribution.md
+
+- **[content-style.md](.agents/rules/content-style.md)** — 콘텐츠 톤·사실성·출처,
   정적 HTML 기술 규격(테마/반응형/접근성), 검증 방법.
 
+@.agents/rules/content-style.md
+
 ### 새 규칙 추가 절차 (모든 도구에 자동 반영)
-1. 규칙 파일은 `docs/rules/*.md`에 만든다 → `opencode.json` 글롭(`docs/rules/*.md`)이
-   OpenCode 컨텍스트에 **자동 주입**된다.
-2. 이 파일의 [공용 규칙] 목록에 한 줄 링크를 추가한다(사람·나머지 에이전트 탐색용).
+1. 규칙 파일은 `.agents/rules/*.md`에 만든다 → `opencode.json` 글롭이 OpenCode 컨텍스트에
+   **자동 주입**된다. 상세 절차는 [.agents/rules/README.md](.agents/rules/README.md) 참조.
+2. 이 파일의 [공용 규칙] 목록에 링크 1줄과 `@.agents/rules/<토픽>.md` import 1줄을 추가한다
+   (Claude Code는 @import를 해석하고, 나머지 에이전트·사람은 링크로 탐색한다).
 3. 도구별 진입점(`CLAUDE.md`·`GEMINI.md`·copilot 포인터)은 **수정할 필요 없다** — 정본을
    import/참조하므로 새 규칙이 함께 전파된다.
 
