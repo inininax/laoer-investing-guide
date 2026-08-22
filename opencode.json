@@ -1,7 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
-    "docs/rules/attribution.md",
-    "docs/rules/content-style.md"
+    "docs/rules/*.md"
   ]
 }

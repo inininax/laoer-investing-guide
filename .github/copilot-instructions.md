@@ -12,3 +12,5 @@
 - **검증**: JS 수정 시 `<script>` 내용을 Node로 문법 확인 후, 헤드리스 Chrome으로 렌더링 확인
   (정확한 명령어는 docs/rules/content-style.md 검증 섹션).
 - **커밋**: 한국어 커밋 메시지, 논리 단위 원자적 커밋. 커밋/푸시는 사용자가 요청할 때만.
+- **새 규칙 추가**: `docs/rules/*.md`에 파일을 만들고 `AGENTS.md`의 공용 규칙 목록에 링크만
+  추가하면 됩니다 — 도구별 진입점(CLAUDE/GEMINI/opencode.json)은 수정할 필요 없습니다.

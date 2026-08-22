@@ -65,7 +65,8 @@
 - 에이전트별 진입점 (내용 없는 얇은 포인터):
   - `CLAUDE.md`(Claude Code) · `GEMINI.md`(Gemini CLI) — `@AGENTS.md` import 한 줄
   - [`.github/copilot-instructions.md`](.github/copilot-instructions.md)(Copilot) — AGENTS.md 참조 안내
-  - [`opencode.json`](opencode.json)(OpenCode) — AGENTS.md 자동 로드 + docs/rules/*.md 직접 주입
+  - [`opencode.json`](opencode.json)(OpenCode) — AGENTS.md 자동 로드 + `docs/rules/*.md` 글로브 주입
+    (규칙 파일을 추가하면 자동으로 함께 로드됨)
 - [`docs/rules/attribution.md`](docs/rules/attribution.md) — ⭐ 원작자 명시·교육용 고지·삭제 요청 정책
 - [`docs/rules/content-style.md`](docs/rules/content-style.md) — 콘텐츠·코드 스타일 규칙
   (필수 HTML 골격, 보안 규칙 — innerHTML 금지 등, 검증 명령어 포함)
