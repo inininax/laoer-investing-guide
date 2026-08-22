@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
 <title>라오어 무한매수법 — 교육 자료 & SOXL 매매 샘플</title>
 <style>
   :root {
@@ -260,6 +266,8 @@
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 </style>
+</head>
+<body>
 
 <header class="hero">
   <div class="hero-grid" aria-hidden="true"></div>
@@ -721,8 +729,13 @@
   ];
 
   var tt = document.getElementById("tt");
-  function showTip(html, x, y) {
-    tt.innerHTML = html;
+  function showTip(lines, x, y) {
+    tt.replaceChildren();
+    lines.forEach(function(t, i){
+      var n = document.createElement(i ? "div" : "b");
+      n.textContent = t;
+      tt.appendChild(n);
+    });
     tt.style.opacity = "1";
     var w = tt.offsetWidth, h = tt.offsetHeight;
     var left = x + 14; if (left + w > window.innerWidth - 8) left = x - w - 14;
@@ -738,10 +751,16 @@
   // ---------- build ledger table ----------
   (function(){
     var tb = document.getElementById("ledgerBody");
+    function span(cls, text){ var s=document.createElement("span"); s.className=cls; s.textContent=text; return s; }
     ROWS.forEach(function(r){
       var tr = document.createElement("tr");
       tr.className = "row-" + r.kind;
-      function td(html, cls){ var c=document.createElement("td"); if(cls)c.className=cls; c.innerHTML=html; tr.appendChild(c); }
+      function td(content, cls){
+        var c=document.createElement("td");
+        if(cls)c.className=cls;
+        if(content instanceof Node) c.appendChild(content); else c.textContent=content;
+        tr.appendChild(c);
+      }
       td(r.day);
       td(r.close.toFixed(2));
       td(r.phase);
@@ -749,15 +768,15 @@
       td(r.star==null? "–" : (r.star>0?"+":"")+r.star.toFixed(2)+"%");
       td(r.small==null? "–" : r.small.toFixed(2), "cell-small");
       td(r.big==null? "–" : r.big.toFixed(2), "cell-big");
-      var buy = "";
       if(r.sb||r.bb){
-        if(r.sb) buy += '<span class="cell-small">'+r.sb+'</span>';
-        if(r.sb&&r.bb) buy += " / ";
-        if(r.bb) buy += '<span class="cell-big">'+r.bb+'</span>';
-        buy += " 주";
-      } else buy = "–";
-      td(buy);
-      td(r.sell? '<span class="cell-sell">'+r.sell+' 주</span>' : "–");
+        var f=document.createDocumentFragment();
+        if(r.sb) f.appendChild(span("cell-small", r.sb));
+        if(r.sb&&r.bb) f.appendChild(document.createTextNode(" / "));
+        if(r.bb) f.appendChild(span("cell-big", r.bb));
+        f.appendChild(document.createTextNode(" 주"));
+        td(f);
+      } else td("–");
+      td(r.sell? span("cell-sell", r.sell+" 주") : "–");
       td(r.avg.toFixed(2));
       td(r.sh);
       td(r.note, "note-cell");
@@ -767,7 +786,7 @@
 
   // ---------- star% curve ----------
   function drawStar(){
-    var svg = document.getElementById("starChart"); svg.innerHTML="";
+    var svg = document.getElementById("starChart"); svg.replaceChildren();
     var W=720,H=300, m={l:52,r:20,t:18,b:40};
     var x0=m.l, x1=W-m.r, y0=H-m.b, y1=m.t;
     var Tx=function(T){ return x0 + (T/40)*(x1-x0); };
@@ -806,7 +825,7 @@
 
   // ---------- cycle chart ----------
   function drawCycle(){
-    var svg=document.getElementById("cycleChart"); svg.innerHTML="";
+    var svg=document.getElementById("cycleChart"); svg.replaceChildren();
     var W=720,H=340,m={l:46,r:16,t:16,b:34};
     var x0=m.l,x1=W-m.r,y0=H-m.b,y1=m.t;
     var lo=129, hi=156;
@@ -849,12 +868,15 @@
         function move(ev){
           var pt=ev.touches?ev.touches[0]:ev;
           var buy = (rr.sb||rr.bb) ? ("작은수 "+rr.sb+" / 큰수 "+rr.bb+"주") : (rr.sell? ("매도 "+rr.sell+"주") : "체결 없음");
-          showTip(
-            "<b>D"+rr.day+" · "+rr.phase+"</b><br>"+
-            "종가 $"+rr.close.toFixed(2)+"<br>"+
-            "평단(작은수) $"+rr.avg.toFixed(2)+(rr.big!=null?"<br>별지점(큰수) $"+rr.big.toFixed(2):"")+"<br>"+
-            (rr.star!=null?"T="+rr.T.toFixed(1)+" · 별% "+(rr.star>0?"+":"")+rr.star.toFixed(2)+"%<br>":"")+
-            buy, pt.clientX, pt.clientY);
+          var lines = [
+            "D"+rr.day+" · "+rr.phase,
+            "종가 $"+rr.close.toFixed(2),
+            "평단(작은수) $"+rr.avg.toFixed(2)
+          ];
+          if(rr.big!=null) lines.push("별지점(큰수) $"+rr.big.toFixed(2));
+          if(rr.star!=null) lines.push("T="+rr.T.toFixed(1)+" · 별% "+(rr.star>0?"+":"")+rr.star.toFixed(2)+"%");
+          lines.push(buy);
+          showTip(lines, pt.clientX, pt.clientY);
         }
         hit.addEventListener("mousemove",move);
         hit.addEventListener("mouseenter",move);
@@ -868,7 +890,7 @@
 
   // ---------- volatility decay ----------
   function drawDecay(){
-    var svg=document.getElementById("decayChart"); svg.innerHTML="";
+    var svg=document.getElementById("decayChart"); svg.replaceChildren();
     var W=720,H=280,m={l:48,r:16,t:18,b:52};
     var x0=m.l,x1=W-m.r,y0=H-m.b,y1=m.t;
     var lo=60,hi=105;
@@ -924,3 +946,5 @@
   var rt; window.addEventListener("resize", function(){ clearTimeout(rt); rt=setTimeout(drawAll,150); });
 })();
 </script>
+</body>
+</html>

@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
 <title>라오어의 밸류 리밸런싱(VR) 교육 자료</title>
 <style>
 :root {
@@ -273,6 +279,8 @@ footer ul { padding-left: 18px; }
   details, .seg button, .chip { transition: background 0.15s ease; }
 }
 </style>
+</head>
+<body>
 
 <div class="wrap">
 <header>
@@ -788,21 +796,49 @@ const DCA_A = dca(PRICES_A, 8000, 500);
 function buildLedger() {
   const tb = document.querySelector('#ledger tbody');
   const phases = {1:'상승장', 9:'급락 구간 (−50%)', 15:'바닥 다지기 — Pool 소진 상태', 23:'회복 — 이익 회수 시작'};
-  let html = '';
+  const cell = (tr, content, cls) => {
+    const td = document.createElement('td');
+    if (cls) td.className = cls;
+    if (content instanceof Node) td.appendChild(content); else td.textContent = content;
+    tr.appendChild(td);
+    return td;
+  };
   A10.forEach(r => {
-    if (phases[r.t]) html += `<tr class="phase"><td colspan="11">▸ ${phases[r.t]}</td></tr>`;
-    const chip = r.action === '매수' || r.action === '최초 매수' ? 'buy' : (r.action === '매도' ? 'sell' : 'hold');
-    const tradeTxt = Math.abs(r.trade) < 0.005 ? '—' :
-      (r.trade > 0 ? `<span class="pos">+${fmt$(r.trade).slice(1)} 회수</span>` : `${fmt$(-r.trade)} 투입`);
-    html += `<tr>
-      <td>${r.t}</td><td>${r.t * 2}주</td><td>$${r.price.toFixed(2)}</td>
-      <td>${r.rise == null ? '—' : r.rise.toFixed(2) + '%'}</td>
-      <td>${fmt$(r.V)}</td><td>${fmt$(r.evalBefore)}</td>
-      <td class="l"><span class="chip ${chip}">${r.action}</span></td>
-      <td>${tradeTxt}</td><td>${r.shares.toFixed(1)}주</td>
-      <td>${fmt$(r.pool)}</td><td>${fmt$(r.total)}</td></tr>`;
+    if (phases[r.t]) {
+      const ptr = document.createElement('tr');
+      ptr.className = 'phase';
+      cell(ptr, '▸ ' + phases[r.t]).colSpan = 11;
+      tb.appendChild(ptr);
+    }
+    const chipName = r.action === '매수' || r.action === '최초 매수' ? 'buy' : (r.action === '매도' ? 'sell' : 'hold');
+    let tradeNode;
+    if (Math.abs(r.trade) < 0.005) {
+      tradeNode = document.createTextNode('—');
+    } else if (r.trade > 0) {
+      const pos = document.createElement('span');
+      pos.className = 'pos';
+      pos.textContent = '+' + fmt$(r.trade).slice(1) + ' 회수';
+      tradeNode = pos;
+    } else {
+      tradeNode = document.createTextNode(fmt$(-r.trade) + ' 투입');
+    }
+    const chipEl = document.createElement('span');
+    chipEl.className = 'chip ' + chipName;
+    chipEl.textContent = r.action;
+    const tr = document.createElement('tr');
+    cell(tr, r.t);
+    cell(tr, r.t * 2 + '주');
+    cell(tr, '$' + r.price.toFixed(2));
+    cell(tr, r.rise == null ? '—' : r.rise.toFixed(2) + '%');
+    cell(tr, fmt$(r.V));
+    cell(tr, fmt$(r.evalBefore));
+    cell(tr, chipEl, 'l');
+    cell(tr, tradeNode);
+    cell(tr, r.shares.toFixed(1) + '주');
+    cell(tr, fmt$(r.pool));
+    cell(tr, fmt$(r.total));
+    tb.appendChild(tr);
   });
-  tb.innerHTML = html;
 }
 buildLedger();
 
@@ -820,63 +856,88 @@ function lineChart(el, cfg) {
   const y = v => m.t + ih - (v - ymin) / (ymax - ymin) * ih;
 
   const NS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  svg.setAttribute('width', '100%');
-  svg.setAttribute('role', 'img');
-  svg.setAttribute('aria-label', cfg.label || '라인 차트');
+  const mk = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
+  const txt = (cx, cy, str, attrs) => { const t = mk('text', Object.assign({x: cx, y: cy}, attrs)); t.textContent = str; return t; };
+  const svg = mk('svg', {viewBox: `0 0 ${W} ${H}`, width: '100%', role: 'img', 'aria-label': cfg.label || '라인 차트'});
 
-  let g = '';
   const ticks = 4;
   for (let i = 0; i <= ticks; i++) {
     const v = ymin + (ymax - ymin) * i / ticks, yy = y(v);
-    g += `<line x1="${m.l}" y1="${yy}" x2="${W - m.r}" y2="${yy}" stroke="${css('--grid')}" stroke-width="1"/>`;
-    g += `<text x="${m.l - 8}" y="${yy + 4}" text-anchor="end" font-size="11" fill="${css('--ink-3')}">${'$' + Math.round(v / 1000) + 'k'}</text>`;
+    svg.appendChild(mk('line', {x1: m.l, y1: yy, x2: W - m.r, y2: yy, stroke: css('--grid'), 'stroke-width': 1}));
+    svg.appendChild(txt(m.l - 8, yy + 4, '$' + Math.round(v / 1000) + 'k', {'text-anchor': 'end', 'font-size': 11, fill: css('--ink-3')}));
   }
   for (let i = 0; i < n; i += 4) {
-    g += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="${css('--ink-3')}">${i * 2}주</text>`;
+    svg.appendChild(txt(x(i), H - 8, i * 2 + '주', {'text-anchor': 'middle', 'font-size': 11, fill: css('--ink-3')}));
   }
-  g += `<line x1="${m.l}" y1="${m.t + ih}" x2="${W - m.r}" y2="${m.t + ih}" stroke="${css('--axis')}" stroke-width="1"/>`;
+  svg.appendChild(mk('line', {x1: m.l, y1: m.t + ih, x2: W - m.r, y2: m.t + ih, stroke: css('--axis'), 'stroke-width': 1}));
 
   cfg.series.forEach(s => {
     const color = css(s.color);
     const pts = s.data.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`);
     if (s.area) {
-      g += `<path d="M${m.l},${m.t + ih} L${pts.join(' L')} L${x(n - 1)},${m.t + ih} Z" fill="${color}" opacity="0.28"/>`;
-      g += `<path d="M${pts.join(' L')}" fill="none" stroke="${color}" stroke-width="1.5"/>`;
+      svg.appendChild(mk('path', {d: `M${m.l},${m.t + ih} L${pts.join(' L')} L${x(n - 1)},${m.t + ih} Z`, fill: color, opacity: 0.28}));
+      svg.appendChild(mk('path', {d: `M${pts.join(' L')}`, fill: 'none', stroke: color, 'stroke-width': 1.5}));
     } else {
-      g += `<path d="M${pts.join(' L')}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="${s.dash || 'none'}" stroke-linejoin="round"/>`;
+      svg.appendChild(mk('path', {d: `M${pts.join(' L')}`, fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-dasharray': s.dash || 'none', 'stroke-linejoin': 'round'}));
       const li = s.data.length - 1;
-      g += `<circle cx="${x(li)}" cy="${y(s.data[li])}" r="3.5" fill="${color}"/>`;
+      svg.appendChild(mk('circle', {cx: x(li), cy: y(s.data[li]), r: 3.5, fill: color}));
     }
     const li = s.data.length - 1;
     const ly = Math.min(Math.max(y(s.data[li]), m.t + 8), m.t + ih - 4);
-    g += `<text x="${x(li) - 4}" y="${ly - 8}" text-anchor="end" font-size="11.5" font-weight="650" fill="${css('--ink-2')}">${s.name}</text>`;
+    svg.appendChild(txt(x(li) - 4, ly - 8, s.name, {'text-anchor': 'end', 'font-size': 11.5, 'font-weight': 650, fill: css('--ink-2')}));
   });
 
-  g += `<line id="xh" x1="0" y1="${m.t}" x2="0" y2="${m.t + ih}" stroke="${css('--axis')}" stroke-width="1" opacity="0"/>`;
-  svg.innerHTML = g;
+  const xh = mk('line', {id: 'xh', x1: 0, y1: m.t, x2: 0, y2: m.t + ih, stroke: css('--axis'), 'stroke-width': 1, opacity: 0});
+  svg.appendChild(xh);
   el.appendChild(svg);
 
   const legend = document.createElement('div');
   legend.className = 'legend';
-  legend.innerHTML = cfg.series.map(s =>
-    `<span class="it"><span class="sw ${s.area ? 'area' : ''}" style="background:${css(s.color)}"></span>${s.name}</span>`).join('');
+  cfg.series.forEach(s => {
+    const it = document.createElement('span');
+    it.className = 'it';
+    const sw = document.createElement('span');
+    sw.className = 'sw' + (s.area ? ' area' : '');
+    sw.style.background = css(s.color);
+    const nm = document.createElement('span');
+    nm.textContent = s.name;
+    it.append(sw, nm);
+    legend.appendChild(it);
+  });
   el.appendChild(legend);
 
   const tip = document.createElement('div');
   tip.className = 'tooltip';
   el.appendChild(tip);
-  const xh = svg.querySelector('#xh');
   svg.addEventListener('pointermove', e => {
     const r = svg.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width * W;
     let i = Math.round((px - m.l) / iw * (n - 1));
     i = Math.max(0, Math.min(n - 1, i));
     xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.setAttribute('opacity', '1');
+    tip.replaceChildren();
+    const title = document.createElement('div');
+    title.className = 'tt-t';
+    title.textContent = `${i * 2}주차 (사이클 ${i})`;
+    tip.appendChild(title);
+    cfg.series.forEach(s => {
+      const row = document.createElement('div');
+      row.className = 'row';
+      const nm = document.createElement('span');
+      nm.className = 'nm';
+      const dot = document.createElement('span');
+      dot.className = 'dot';
+      dot.style.background = css(s.color);
+      const label = document.createElement('span');
+      label.textContent = s.name;
+      nm.append(dot, label);
+      const vl = document.createElement('span');
+      vl.className = 'vl';
+      vl.textContent = fmt$(s.data[i]);
+      row.append(nm, vl);
+      tip.appendChild(row);
+    });
     tip.style.display = 'block';
-    tip.innerHTML = `<div class="tt-t">${i * 2}주차 (사이클 ${i})</div>` + cfg.series.map(s =>
-      `<div class="row"><span class="nm"><span class="dot" style="background:${css(s.color)}"></span>${s.name}</span><span class="vl">${fmt$(s.data[i])}</span></div>`).join('');
     const bx = el.getBoundingClientRect();
     let tx = e.clientX - bx.left + 14;
     if (tx + tip.offsetWidth > bx.width - 8) tx = e.clientX - bx.left - tip.offsetWidth - 14;
@@ -975,3 +1036,5 @@ new MutationObserver(() => renderAll())
   .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderAll);
 </script>
+</body>
+</html>
