@@ -16,8 +16,8 @@
 ## 보는 방법
 
 - **로컬:** `index.html`을 브라우저로 엽니다. (혹은 `python3 -m http.server` 후 `localhost:8000`)
-- **GitHub Pages:** 저장소 Settings → Pages → Source를 `main` 브랜치 루트로 지정하면
-  `https://kyungseok-lee.github.io/laoer-investing-guide/` 로 공개됩니다.
+- **GitHub Pages:** `main` 브랜치에 푸시하면 자동 배포됩니다 →
+  <https://inininax.github.io/laoer-investing-guide/>
 
 각 페이지는 라이트/다크 테마를 모두 지원하며, 인터랙티브 차트와 매매 원장 표를 포함합니다.
 
@@ -59,11 +59,15 @@
 
 ## 기여 · 규칙
 
-이 저장소에서 작업하는 사람과 AI 에이전트(Claude·Codex 등)는 공용 규칙을 따릅니다.
+이 저장소에서 작업하는 사람과 AI 에이전트(Codex·Claude Code·Cursor·Gemini CLI·GitHub Copilot 등)는 공용 규칙을 따릅니다.
 
-- [`AGENTS.md`](AGENTS.md) — 에이전트 공용 정본 안내서 (`CLAUDE.md`는 이 파일을 import하는 한 줄 파일)
+- [`AGENTS.md`](AGENTS.md) — 에이전트 공용 정본 안내서 (**유일한 실제 규칙 파일** — 여기만 수정)
+- 에이전트별 진입점 (내용 없는 얇은 포인터):
+  - `CLAUDE.md`(Claude Code) · `GEMINI.md`(Gemini CLI) — `@AGENTS.md` import 한 줄
+  - [`.github/copilot-instructions.md`](.github/copilot-instructions.md)(Copilot) — AGENTS.md 참조 안내
 - [`docs/rules/attribution.md`](docs/rules/attribution.md) — ⭐ 원작자 명시·교육용 고지·삭제 요청 정책
 - [`docs/rules/content-style.md`](docs/rules/content-style.md) — 콘텐츠·코드 스타일 규칙
+  (필수 HTML 골격, 보안 규칙 — innerHTML 금지 등, 검증 명령어 포함)
 
 ## 주요 출처
 

@@ -8,8 +8,8 @@
 > 두 문서가 서로 다르게 갈라질(drift) 수 없고, 심링크와 달리 Windows 체크아웃에서도
 > 깨지지 않습니다. 규칙은 항상 여기(그리고 `docs/rules/`)에서만 관리하세요.
 >
-> <sub>Claude Code용 진입점이 더 필요하면(예: Gemini CLI의 `GEMINI.md`) 같은 방식으로
-> `@AGENTS.md` 한 줄만 두면 됩니다.</sub>
+> <sub>Claude Code·Gemini CLI는 `@AGENTS.md` import로, GitHub Copilot은 짧은 포인터 문서로
+> 연결돼 있습니다. 새 도구 진입점이 필요하면 같은 방식(`@AGENTS.md` 한 줄 우선)으로 추가하세요.</sub>
 
 ## 프로젝트 개요
 
@@ -30,6 +30,8 @@ value-rebalancing.html   # 밸류 리밸런싱 (Value Rebalancing, VR) — 개�
 README.md                # 프로젝트 소개·보는 법·출처·삭제 요청 안내
 AGENTS.md                # (이 파일) 에이전트 공용 정본 안내서 — 유일한 실제 파일
 CLAUDE.md                # "@AGENTS.md" 한 줄 (Claude Code용 — AGENTS.md를 import)
+GEMINI.md                # "@AGENTS.md" 한 줄 (Gemini CLI용)
+.github/copilot-instructions.md  # GitHub Copilot용 포인터 (AGENTS.md·docs/rules 참조 안내)
 docs/rules/              # 에이전트 공용 규칙 (아래 참조)
 ```
 
