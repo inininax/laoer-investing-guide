@@ -1,7 +1,7 @@
 # AGENTS.md
 
 > 이 파일은 이 저장소에서 작업하는 **모든 AI 코딩 에이전트의 정본(canonical) 안내서**입니다.
-> **Codex, Claude Code, Cursor 등이 모두 같은 내용을 읽습니다.**
+> **Codex·Claude Code·Cursor·Gemini CLI·GitHub Copilot이 모두 같은 내용을 읽습니다.**
 >
 > **`CLAUDE.md`는 이 파일(`AGENTS.md`)을 가져오는(import) 한 줄짜리 얇은 파일입니다**
 > (`@AGENTS.md` — Claude Code 메모리 import 문법). 실제 내용은 이 파일 하나뿐이라
