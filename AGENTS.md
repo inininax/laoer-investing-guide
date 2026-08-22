@@ -3,13 +3,13 @@
 > 이 파일은 이 저장소에서 작업하는 **모든 AI 코딩 에이전트의 정본(canonical) 안내서**입니다.
 > **Codex, Claude Code, Cursor 등이 모두 같은 내용을 읽습니다.**
 >
-> **`CLAUDE.md`는 이 파일(`AGENTS.md`)을 가리키는 심볼릭 링크입니다** — 디스크상 실제 파일은
-> 하나뿐이고 이름만 둘입니다. 따라서 두 문서가 서로 다르게 갈라질(drift) 수 없습니다.
-> 규칙은 항상 여기(그리고 `docs/rules/`)에서만 관리하세요. `CLAUDE.md`를 따로 수정하면
-> 곧 이 파일을 수정하는 것과 같습니다.
+> **`CLAUDE.md`는 이 파일(`AGENTS.md`)을 가져오는(import) 한 줄짜리 얇은 파일입니다**
+> (`@AGENTS.md` — Claude Code 메모리 import 문법). 실제 내용은 이 파일 하나뿐이라
+> 두 문서가 서로 다르게 갈라질(drift) 수 없고, 심링크와 달리 Windows 체크아웃에서도
+> 깨지지 않습니다. 규칙은 항상 여기(그리고 `docs/rules/`)에서만 관리하세요.
 >
-> <sub>심링크 재생성이 필요하면: `rm CLAUDE.md && ln -s AGENTS.md CLAUDE.md`
-> (Windows에서 심링크가 깨지면 `CLAUDE.md`에 `@AGENTS.md` 한 줄만 두는 import 방식으로 대체 가능.)</sub>
+> <sub>Claude Code용 진입점이 더 필요하면(예: Gemini CLI의 `GEMINI.md`) 같은 방식으로
+> `@AGENTS.md` 한 줄만 두면 됩니다.</sub>
 
 ## 프로젝트 개요
 
@@ -29,7 +29,7 @@ infinite-buying.html     # 무한매수법 (Infinite Buying) — 규칙·SOXL �
 value-rebalancing.html   # 밸류 리밸런싱 (Value Rebalancing, VR) — 개념·시뮬레이션
 README.md                # 프로젝트 소개·보는 법·출처·삭제 요청 안내
 AGENTS.md                # (이 파일) 에이전트 공용 정본 안내서 — 유일한 실제 파일
-CLAUDE.md → AGENTS.md    # 심볼릭 링크 (Claude Code용, 내용은 AGENTS.md와 100% 동일)
+CLAUDE.md                # "@AGENTS.md" 한 줄 (Claude Code용 — AGENTS.md를 import)
 docs/rules/              # 에이전트 공용 규칙 (아래 참조)
 ```
 
@@ -44,7 +44,7 @@ python3 -m http.server 8000    # → http://localhost:8000
 # 또는 index.html을 브라우저로 바로 열기
 
 # 배포: GitHub Pages (Settings → Pages → Source: main / root)
-# → https://kyungseok-lee.github.io/laoer-investing-guide/
+# → https://inininax.github.io/laoer-investing-guide/
 ```
 
 빌드·테스트·린트 도구는 없습니다. **검증 = 브라우저로 직접 열어 확인** (콘솔 에러 없음,

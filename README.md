@@ -61,7 +61,7 @@
 
 이 저장소에서 작업하는 사람과 AI 에이전트(Claude·Codex 등)는 공용 규칙을 따릅니다.
 
-- [`AGENTS.md`](AGENTS.md) — 에이전트 공용 정본 안내서 (`CLAUDE.md`는 이 파일을 가리킴)
+- [`AGENTS.md`](AGENTS.md) — 에이전트 공용 정본 안내서 (`CLAUDE.md`는 이 파일을 import하는 한 줄 파일)
 - [`docs/rules/attribution.md`](docs/rules/attribution.md) — ⭐ 원작자 명시·교육용 고지·삭제 요청 정책
 - [`docs/rules/content-style.md`](docs/rules/content-style.md) — 콘텐츠·코드 스타일 규칙
 
