@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231f5fd0'/%3E%3Cpath d='M17 41 L29 29 L35 35 L47 21 M47 21 h-11 M47 21 v11' fill='none' stroke='%23ffffff' stroke-width='5.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta name="description" content="라오어의 밸류 리밸런싱(VR)을 가상 데이터 시뮬레이션으로 배우는 비공식 교육 자료 — V·Pool·G 세 변수, 2주 리밸런싱 규칙, 26사이클 풀 장부, 급락·횡보·극단 폭락 시나리오 비교와 G·현금비중 슬라이더 실험까지. 투자 권유가 아닌 학습용 2차 자료입니다.">
+<meta property="og:title" content="라오어의 밸류 리밸런싱(VR) 교육 자료">
+<meta property="og:description" content="라오어의 밸류 리밸런싱(VR)을 가상 데이터 시뮬레이션으로 배우는 비공식 교육 자료 — V·Pool·G 세 변수, 2주 리밸런싱 규칙, 26사이클 풀 장부, 급락·횡보·극단 폭락 시나리오 비교와 G·현금비중 슬라이더 실험까지. 투자 권유가 아닌 학습용 2차 자료입니다.">
+<meta property="og:url" content="https://inininax.github.io/laoer-investing-guide/value-rebalancing.html">
+<meta property="og:type" content="article">
 <title>라오어의 밸류 리밸런싱(VR) 교육 자료</title>
 <style>
 :root {
@@ -12,7 +18,7 @@
   --surface:   #fcfcfb;
   --ink-1:     #0b0b0b;
   --ink-2:     #52514e;
-  --ink-3:     #898781;
+  --ink-3:     #6d6a60;
   --grid:      #e1e0d9;
   --axis:      #c3c2b7;
   --border:    rgba(11,11,11,0.10);
@@ -20,7 +26,7 @@
   --accent-soft: rgba(42,120,214,0.10);
   --s1: #2a78d6;  /* 슬롯1 blue */
   --s2: #008300;  /* 슬롯2 green */
-  --s3: #e87ba4;  /* 슬롯3 magenta */
+  --s3: #c2417c;  /* 슬롯3 magenta */
   --buy-bg:  rgba(42,120,214,0.12);
   --buy-fg:  #1c5cab;
   --sell-bg: rgba(227,73,72,0.12);
@@ -83,7 +89,7 @@
   --surface:   #fcfcfb;
   --ink-1:     #0b0b0b;
   --ink-2:     #52514e;
-  --ink-3:     #898781;
+  --ink-3:     #6d6a60;
   --grid:      #e1e0d9;
   --axis:      #c3c2b7;
   --border:    rgba(11,11,11,0.10);
@@ -91,7 +97,7 @@
   --accent-soft: rgba(42,120,214,0.10);
   --s1: #2a78d6;
   --s2: #008300;
-  --s3: #e87ba4;
+  --s3: #c2417c;
   --buy-bg:  rgba(42,120,214,0.12);
   --buy-fg:  #1c5cab;
   --sell-bg: rgba(227,73,72,0.12);
@@ -158,6 +164,35 @@ strong { font-weight: 720; }
   background: var(--surface);
 }
 
+/* ---------- 리밸런싱 플로우 ---------- */
+.flow { max-width: 46em; margin: 20px 0; }
+.flow-steps { list-style: none; margin: 0; padding: 0; }
+.flow-node {
+  position: relative; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 16px;
+}
+.flow-node + .flow-node { margin-top: 28px; }
+.flow-node:not(:last-child)::after {
+  content: ""; position: absolute; left: 26px; bottom: -24px; width: 0; height: 0;
+  border-left: 6px solid transparent; border-right: 6px solid transparent;
+  border-top: 9px solid var(--axis);
+}
+.flow-no {
+  display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 8px;
+  border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+  font-size: 12.5px; font-weight: 700; vertical-align: middle;
+}
+.flow-txt { display: inline; margin: 0; }
+.flow-cases { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+.flow-case {
+  border: 1px dashed var(--grid); border-radius: 8px; padding: 8px 12px;
+  font-size: 14.5px; color: var(--ink-1); display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+}
+@media (min-width: 640px) {
+  .flow-cases { grid-template-columns: repeat(3, 1fr); }
+  .flow-case { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+
 /* ---------- 카드 그리드 ---------- */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 24px 0; }
 .card {
@@ -193,14 +228,15 @@ caption { text-align: left; padding: 14px 16px 6px; font-weight: 700; font-size:
 th {
   text-align: right; font-weight: 650; color: var(--ink-3); font-size: 12px;
   letter-spacing: 0.04em; padding: 10px 12px; border-bottom: 1px solid var(--grid);
-  white-space: nowrap; position: sticky; top: 0; background: var(--surface);
+  white-space: nowrap;
 }
+thead th { position: sticky; top: 0; background: var(--surface); z-index: 1; }
 th.l, td.l { text-align: left; }
 td {
   padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--grid);
   font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--ink-1);
 }
-tr:last-child td { border-bottom: none; }
+tr:last-child :is(td, th) { border-bottom: none; }
 tr.phase td { background: var(--accent-soft); font-weight: 650; font-size: 12px; color: var(--ink-2); text-align: left; letter-spacing: 0.05em; }
 .chip {
   display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 12px; font-weight: 650;
@@ -214,13 +250,13 @@ tr.phase td { background: var(--accent-soft); font-weight: 650; font-size: 12px;
 /* 비교표 (개념) */
 table.cmp th, table.cmp td { text-align: left; white-space: normal; }
 table.cmp td { font-variant-numeric: normal; line-height: 1.55; }
-table.cmp td:first-child { font-weight: 650; white-space: nowrap; color: var(--ink-2); }
+table.cmp :is(td, th):first-child { font-weight: 650; white-space: nowrap; color: var(--ink-2); }
 
 /* ---------- 차트 ---------- */
 figure { margin: 24px 0; }
 .chartbox {
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-  padding: 18px 18px 10px; position: relative;
+  padding: 18px 18px 10px; position: relative; touch-action: pan-y;
 }
 .chartbox h4 { margin: 0 0 2px; font-size: 15px; font-weight: 720; }
 .chartbox .sub { font-size: 13px; color: var(--ink-3); margin: 0 0 10px; }
@@ -260,6 +296,7 @@ svg text { font-family: inherit; font-variant-numeric: tabular-nums; }
 .seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
 .seg button:focus-visible, .ctrl input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .sim-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
+.sr-only { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
 
 /* ---------- FAQ / 기타 ---------- */
 details {
@@ -328,13 +365,13 @@ footer ul { padding-left: 18px; }
 
   <div class="tablebox"><table class="cmp">
     <caption>무한매수법 vs 밸류 리밸런싱 — 성격 비교</caption>
-    <thead><tr><th class="l">구분</th><th class="l">무한매수법</th><th class="l">밸류 리밸런싱(VR)</th></tr></thead>
+    <thead><tr><th class="l" scope="col">구분</th><th class="l" scope="col">무한매수법</th><th class="l" scope="col">밸류 리밸런싱(VR)</th></tr></thead>
     <tbody>
-      <tr><td>투자 기간</td><td>단기 (수 주 ~ 수개월, 사이클 반복)</td><td>장기 (수년 이상)</td></tr>
-      <tr><td>기본 동작</td><td>40분할 등으로 매일 기계적 분할매수 후 목표 수익률 도달 시 전량 매도</td><td>2주마다 목표값 V에 평가금을 맞추는 리밸런싱</td></tr>
-      <tr><td>현금의 역할</td><td>아직 투입 안 된 매수 대기 자금</td><td>Pool — 하락 시 매수 재원이자 V의 상승 속도를 결정하는 변수</td></tr>
-      <tr><td>매도 조건</td><td>수익률 도달(익절)</td><td>평가금이 V를 초과한 만큼 부분 매도</td></tr>
-      <tr><td>지향점</td><td>변동성을 이용한 반복 수익</td><td>우상향을 전제로 한 자산 성장 + 급락 방어</td></tr>
+      <tr><th scope="row">투자 기간</th><td>단기 (수 주 ~ 수개월, 사이클 반복)</td><td>장기 (수년 이상)</td></tr>
+      <tr><th scope="row">기본 동작</th><td>40분할 등으로 매일 기계적 분할매수 후 목표 수익률 도달 시 전량 매도</td><td>2주마다 목표값 V에 평가금을 맞추는 리밸런싱</td></tr>
+      <tr><th scope="row">현금의 역할</th><td>아직 투입 안 된 매수 대기 자금</td><td>Pool — 하락 시 매수 재원이자 V의 상승 속도를 결정하는 변수</td></tr>
+      <tr><th scope="row">매도 조건</th><td>수익률 도달(익절)</td><td>평가금이 V를 초과한 만큼 부분 매도</td></tr>
+      <tr><th scope="row">지향점</th><td>변동성을 이용한 반복 수익</td><td>우상향을 전제로 한 자산 성장 + 급락 방어</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -375,18 +412,23 @@ footer ul { padding-left: 18px; }
 
   <h3>2주마다 하는 일 — 리밸런싱 규칙</h3>
   <p>2주에 한 번, 시장이 어떻든 감정 없이 아래 순서만 반복합니다.</p>
-  <pre class="mermaid">
-flowchart TD
-    A["2주 경과 - 리밸런싱 데이"] --> B["새 V값 계산<br/>V x (1 + Pool비율/G)"]
-    B --> C{"주식 평가금 vs 새 V값"}
-    C -->|"평가금 &gt; V"| D["초과분만큼 매도<br/>매도 대금은 Pool에 적립"]
-    C -->|"평가금 &lt; V"| E["부족분만큼 Pool로 매수<br/>(Pool 잔액 한도 내)"]
-    C -->|"평가금 = V"| F["아무것도 안 함"]
-    D --> G["다음 2주 대기"]
-    E --> G
-    F --> G
-    G --> A
-  </pre>
+  <div class="flow">
+    <ol class="flow-steps">
+      <li class="flow-node"><span class="flow-no" aria-hidden="true">1</span>
+        <p class="flow-txt"><b>2주 경과 — 리밸런싱 데이</b></p></li>
+      <li class="flow-node"><span class="flow-no" aria-hidden="true">2</span>
+        <p class="flow-txt"><b>새 V값 계산</b> — V<sub>다음</sub> = V<sub>현재</sub> × (1 + (Pool ÷ V<sub>현재</sub>) ÷ G)</p></li>
+      <li class="flow-node"><span class="flow-no" aria-hidden="true">3</span>
+        <p class="flow-txt"><b>주식 평가금 vs 새 V값 비교</b></p>
+        <ul class="flow-cases">
+          <li class="flow-case"><span class="chip sell">매도</span> 평가금 &gt; V → 초과분만큼 매도, 매도 대금은 Pool에 적립</li>
+          <li class="flow-case"><span class="chip buy">매수</span> 평가금 &lt; V → 부족분만큼 Pool 잔액 한도 내 매수</li>
+          <li class="flow-case"><span class="chip hold">유지</span> 평가금 = V → 아무것도 안 함</li>
+        </ul></li>
+      <li class="flow-node"><span class="flow-no" aria-hidden="true">4</span>
+        <p class="flow-txt"><b>다음 2주 대기</b> → 1번으로 돌아가 반복</p></li>
+    </ol>
+  </div>
   <div class="note"><b>밴드(Band)라는 완충장치.</b> 매 순간 V에 딱 맞추는 게 아니라, V를 중심으로
   여유 구간을 두고 <strong>구간을 벗어났을 때만</strong> 사고팔도록 운용합니다. 잔거래·수수료를 줄이고 상승 추세를
   너무 일찍 끊지 않기 위한 장치입니다. 현재 오피셜인 <b>VR 5.0</b> 기준 밴드는 대칭 <b>±15%</b>
@@ -411,13 +453,13 @@ flowchart TD
   <div class="tablebox"><table>
     <caption>워크스루: 최초 세팅 → 3번의 리밸런싱 (가격은 가상)</caption>
     <thead><tr>
-      <th class="l">시점</th><th>TQQQ 가격</th><th>계산</th><th>새 V값</th><th>평가금</th><th>액션</th><th>Pool</th>
+      <th class="l" scope="col">시점</th><th scope="col">TQQQ 가격</th><th scope="col">계산</th><th scope="col">새 V값</th><th scope="col">평가금</th><th scope="col">액션</th><th scope="col">Pool</th>
     </tr></thead>
     <tbody>
-      <tr><td class="l">시작</td><td>$50.00</td><td class="l" style="white-space:normal">최초 V = 주식 매수금</td><td>$10,000</td><td>$10,000</td><td class="l"><span class="chip buy">매수</span> 200주</td><td>$10,000</td></tr>
-      <tr><td class="l">2주 후</td><td>$52.10</td><td class="l" style="white-space:normal">상승률 = (10,000÷10,000)÷10 = <strong>10%</strong></td><td>$11,000</td><td>200주×52.10 = $10,420</td><td class="l" style="white-space:normal"><span class="chip buy">매수</span> $580 어치 (11.1주) — 평가금이 V보다 $580 부족</td><td>$9,420</td></tr>
-      <tr><td class="l">4주 후</td><td>$54.80</td><td class="l" style="white-space:normal">상승률 = (9,420÷11,000)÷10 = <strong>8.6%</strong></td><td>$11,942</td><td>211.1주×54.80 = $11,570</td><td class="l" style="white-space:normal"><span class="chip buy">매수</span> $372 어치 (6.8주)</td><td>$9,048</td></tr>
-      <tr><td class="l">6주 후</td><td>$53.20</td><td class="l" style="white-space:normal">상승률 = (9,048÷11,942)÷10 = <strong>7.6%</strong></td><td>$12,847</td><td>217.9주×53.20 = $11,593</td><td class="l" style="white-space:normal"><span class="chip buy">매수</span> $1,253 어치 (23.6주) — 가격이 내려 부족분이 커짐</td><td>$7,795</td></tr>
+      <tr><th class="l" scope="row">시작</th><td>$50.00</td><td class="l" style="white-space:normal">최초 V = 주식 매수금</td><td>$10,000</td><td>$10,000</td><td class="l"><span class="chip buy">매수</span> 200주</td><td>$10,000</td></tr>
+      <tr><th class="l" scope="row">2주 후</th><td>$52.10</td><td class="l" style="white-space:normal">상승률 = (10,000÷10,000)÷10 = <strong>10%</strong></td><td>$11,000</td><td>200주×52.10 = $10,420</td><td class="l" style="white-space:normal"><span class="chip buy">매수</span> $580 어치 (11.1주) — 평가금이 V보다 $580 부족</td><td>$9,420</td></tr>
+      <tr><th class="l" scope="row">4주 후</th><td>$54.80</td><td class="l" style="white-space:normal">상승률 = (9,420÷11,000)÷10 = <strong>8.6%</strong></td><td>$11,942</td><td>211.1주×54.80 = $11,570</td><td class="l" style="white-space:normal"><span class="chip buy">매수</span> $372 어치 (6.8주)</td><td>$9,048</td></tr>
+      <tr><th class="l" scope="row">6주 후</th><td>$53.20</td><td class="l" style="white-space:normal">상승률 = (9,048÷11,942)÷10 = <strong>7.6%</strong></td><td>$12,847</td><td>217.9주×53.20 = $11,593</td><td class="l" style="white-space:normal"><span class="chip buy">매수</span> $1,253 어치 (23.6주) — 가격이 내려 부족분이 커짐</td><td>$7,795</td></tr>
     </tbody>
   </table></div>
 
@@ -466,7 +508,7 @@ flowchart TD
     <table id="ledger">
       <caption>시나리오 A 전체 기록 — 총자금 $20,000, G=10, 2주 주기 (가격은 가상, 소수점 주식 매매 가정)</caption>
       <thead><tr>
-        <th>사이클</th><th>주차</th><th>가격</th><th>V상승률</th><th>V값</th><th>평가금<br>(리밸런싱 전)</th><th class="l">액션</th><th>거래액</th><th>보유 주수</th><th>Pool</th><th>총자산</th>
+        <th scope="col">사이클</th><th scope="col">주차</th><th scope="col">가격</th><th scope="col">V상승률</th><th scope="col">V값</th><th scope="col">평가금<br>(리밸런싱 전)</th><th class="l" scope="col">액션</th><th scope="col">거래액</th><th scope="col">보유 주수</th><th scope="col">Pool</th><th scope="col">총자산</th>
       </tr></thead>
       <tbody></tbody>
     </table>
@@ -581,11 +623,12 @@ flowchart TD
     </div>
   </div>
 
-  <div class="sim-tiles">
+  <div class="sim-tiles" aria-live="polite">
     <div class="tile"><div class="k">최종 총자산</div><div class="v" id="tFinal">—</div><div class="d" id="tRet">—</div></div>
     <div class="tile"><div class="k">최대 낙폭 (MDD)</div><div class="v" id="tMdd">—</div><div class="d">총자산 기준</div></div>
     <div class="tile"><div class="k">Pool 최저 잔액</div><div class="v" id="tPool">—</div><div class="d" id="tPoolNote">—</div></div>
     <div class="tile"><div class="k">매수 / 매도 횟수</div><div class="v" id="tTrades">—</div><div class="d">26회 점검 중</div></div>
+    <p class="sr-only" id="simSummary"></p>
   </div>
 
   <figure>
@@ -805,6 +848,13 @@ function buildLedger() {
     tr.appendChild(td);
     return td;
   };
+  const cellHead = (tr, content) => {
+    const th = document.createElement('th');
+    th.setAttribute('scope','row');
+    if (content instanceof Node) th.appendChild(content); else th.textContent = content;
+    tr.appendChild(th);
+    return th;
+  };
   A10.forEach(r => {
     if (phases[r.t]) {
       const ptr = document.createElement('tr');
@@ -828,7 +878,7 @@ function buildLedger() {
     chipEl.className = 'chip ' + chipName;
     chipEl.textContent = r.action;
     const tr = document.createElement('tr');
-    cell(tr, r.t);
+    cellHead(tr, r.t);
     cell(tr, r.t * 2 + '주');
     cell(tr, '$' + r.price.toFixed(2));
     cell(tr, r.rise == null ? '—' : r.rise.toFixed(2) + '%');
@@ -860,7 +910,7 @@ function lineChart(el, cfg) {
   const NS = 'http://www.w3.org/2000/svg';
   const mk = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
   const txt = (cx, cy, str, attrs) => { const t = mk('text', Object.assign({x: cx, y: cy}, attrs)); t.textContent = str; return t; };
-  const svg = mk('svg', {viewBox: `0 0 ${W} ${H}`, width: '100%', role: 'img', 'aria-label': cfg.label || '라인 차트'});
+  const svg = mk('svg', {viewBox: `0 0 ${W} ${H}`, width: '100%', role: 'img', 'aria-label': cfg.label || '라인 차트', tabindex: '0'});
 
   const ticks = 4;
   for (let i = 0; i <= ticks; i++) {
@@ -911,12 +961,7 @@ function lineChart(el, cfg) {
   const tip = document.createElement('div');
   tip.className = 'tooltip';
   el.appendChild(tip);
-  svg.addEventListener('pointermove', e => {
-    const r = svg.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width * W;
-    let i = Math.round((px - m.l) / iw * (n - 1));
-    i = Math.max(0, Math.min(n - 1, i));
-    xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.setAttribute('opacity', '1');
+  function renderTip(i) {
     tip.replaceChildren();
     const title = document.createElement('div');
     title.className = 'tt-t';
@@ -939,6 +984,15 @@ function lineChart(el, cfg) {
       row.append(nm, vl);
       tip.appendChild(row);
     });
+  }
+  function hideTipV() { tip.style.display = 'none'; xh.setAttribute('opacity', '0'); }
+  svg.addEventListener('pointermove', e => {
+    const r = svg.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width * W;
+    let i = Math.round((px - m.l) / iw * (n - 1));
+    i = Math.max(0, Math.min(n - 1, i));
+    xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.setAttribute('opacity', '1');
+    renderTip(i);
     tip.style.display = 'block';
     const bx = el.getBoundingClientRect();
     let tx = e.clientX - bx.left + 14;
@@ -946,7 +1000,13 @@ function lineChart(el, cfg) {
     tip.style.left = tx + 'px';
     tip.style.top = Math.max(8, e.clientY - bx.top - tip.offsetHeight - 12) + 'px';
   });
-  svg.addEventListener('pointerleave', () => { tip.style.display = 'none'; xh.setAttribute('opacity', '0'); });
+  svg.addEventListener('focus', () => {
+    const i = n - 1;
+    xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.setAttribute('opacity', '1');
+    renderTip(i); tip.style.display = 'block'; tip.style.left = '8px'; tip.style.top = '8px';
+  });
+  svg.addEventListener('blur', () => hideTipV());
+  svg.addEventListener('pointerleave', () => hideTipV());
 }
 
 /* ============ 정적 차트 4개 ============ */
@@ -1002,21 +1062,26 @@ function runSim() {
   document.getElementById('tTrades').textContent = `${buys} / ${sells}`;
   document.getElementById('simSub').textContent =
     `시나리오 ${state.scenario} · G=${state.G} · 초기 Pool ${Math.round(state.poolPct * 100)}%`;
+  const summaryEl = document.getElementById('simSummary');
+  if (summaryEl) summaryEl.textContent =
+    `시나리오 ${state.scenario}, G=${state.G}, 초기 Pool ${Math.round(state.poolPct*100)}% — 최종 총자산 ${fmt$(final)} (${(ret>=0?'+':'')}${ret.toFixed(1)}%), MDD ${(mdd(totals)*100).toFixed(1)}%, Pool 최저 ${fmt$(minPool)}`;
   lineChart(document.getElementById('chartSim'), { zero: true, label: '시뮬레이션 결과', series: [
     { name: 'V값 (목표)', data: rows.map(r => r.V), color: '--s1' },
     { name: '주식 평가금', data: rows.map(r => r.evalBefore), color: '--s2' },
     { name: 'Pool (현금)', data: rows.map(r => r.pool), color: '--s3', area: true },
   ]});
 }
+let simQueued=false;
+function queueSim(){ if(simQueued) return; simQueued=true; requestAnimationFrame(()=>{ simQueued=false; runSim(); }); }
 document.getElementById('gRange').addEventListener('input', e => {
   state.G = +e.target.value;
   document.getElementById('gVal').textContent = state.G;
-  runSim();
+  queueSim();
 });
 document.getElementById('pRange').addEventListener('input', e => {
   state.poolPct = +e.target.value / 100;
   document.getElementById('pVal').textContent = e.target.value + '%';
-  runSim();
+  queueSim();
 });
 document.getElementById('scA').addEventListener('click', () => setScenario('A'));
 document.getElementById('scB').addEventListener('click', () => setScenario('B'));
@@ -1036,7 +1101,7 @@ let rT;
 window.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(renderAll, 150); });
 new MutationObserver(() => renderAll())
   .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderAll);
+if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderAll);
 </script>
 </body>
 </html>

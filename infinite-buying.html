@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231f5fd0'/%3E%3Cpath d='M17 41 L29 29 L35 35 L47 21 M47 21 h-11 M47 21 v11' fill='none' stroke='%23ffffff' stroke-width='5.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta name="description" content="라오어 무한매수법을 숫자로 정리한 비공식 교육 자료 — 큰수·작은수 LOC 주문 원리, v2.2 별% 공식과 전·후반전 규칙, SOXL 한 사이클 매매 샘플 원장, 버전별(v1~v4.0) 차이와 리스크까지. 투자 권유가 아닌 학습용 2차 자료입니다.">
+<meta property="og:title" content="라오어 무한매수법 — 교육 자료 &amp; SOXL 매매 샘플">
+<meta property="og:description" content="라오어 무한매수법을 숫자로 정리한 비공식 교육 자료 — 큰수·작은수 LOC 주문 원리, v2.2 별% 공식과 전·후반전 규칙, SOXL 한 사이클 매매 샘플 원장, 버전별(v1~v4.0) 차이와 리스크까지. 투자 권유가 아닌 학습용 2차 자료입니다.">
+<meta property="og:url" content="https://inininax.github.io/laoer-investing-guide/infinite-buying.html">
+<meta property="og:type" content="article">
 <title>라오어 무한매수법 — 교육 자료 & SOXL 매매 샘플</title>
 <style>
   :root {
@@ -13,7 +19,7 @@
     --surface-2:    #f6f4ec;   /* alt rows / insets */
     --ink:          #16150f;
     --ink-2:        #56534a;
-    --muted:        #8a877d;
+    --muted:        #6d6a60;
     --hair:         #e2ddd0;
     --hair-strong:  #cfc9b8;
     --accent:       #1f5fd0;   /* brand blue */
@@ -179,13 +185,14 @@
   .chart-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 14px; padding: 18px 18px 8px; box-shadow: var(--shadow); }
   .chart-title { font-weight: 700; font-size: 16px; margin: 0 0 2px; }
   .chart-sub { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; }
-  .chart-scroll { overflow-x: auto; }
+  .chart-scroll { overflow-x: auto; touch-action: pan-y; }
   svg { display: block; width: 100%; height: auto; }
   .legend { display:flex; flex-wrap:wrap; gap: 14px; margin: 10px 2px 4px; font-size: 13px; color: var(--ink-2); }
   .legend span { display:inline-flex; align-items:center; gap:6px; }
   .legend i { width: 14px; height: 3px; border-radius: 2px; display:inline-block; }
   .legend i.dot { width:10px; height:10px; border-radius:50%; }
   figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+  #cycleChart rect.hit:focus { stroke: var(--accent); stroke-width: 2; }
 
   /* ---------- tables ---------- */
   .table-scroll { overflow-x: auto; border: 1px solid var(--hair); border-radius: 14px; box-shadow: var(--shadow); background: var(--surface); }
@@ -195,17 +202,17 @@
   th:first-child, td:first-child { text-align: center; }
   td.note-cell, th.note-cell { text-align: left; white-space: normal; min-width: 220px; color: var(--ink-2); font-size: 12.5px; }
   thead th { position: sticky; top: 0; background: var(--surface-2); color: var(--ink-2); font-family: var(--mono); font-size: 11.5px; letter-spacing: .03em; text-transform: uppercase; font-weight: 600; z-index: 1; }
-  tbody td { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  tbody td, tbody th { font-family: var(--mono); font-variant-numeric: tabular-nums; }
   tbody tr:hover { background: var(--surface-2); }
   .cell-small { color: var(--small); font-weight: 700; }
   .cell-big { color: var(--big); font-weight: 700; }
   .cell-sell { color: var(--good); font-weight: 700; }
-  tr.row-buy1 td:first-child { box-shadow: inset 3px 0 0 var(--small); }
-  tr.row-half td:first-child { box-shadow: inset 3px 0 0 var(--big); }
-  tr.row-sell td:first-child { box-shadow: inset 3px 0 0 var(--good); }
+  tr.row-buy1 :is(td,th):first-child { box-shadow: inset 3px 0 0 var(--small); }
+  tr.row-half :is(td,th):first-child { box-shadow: inset 3px 0 0 var(--big); }
+  tr.row-sell :is(td,th):first-child { box-shadow: inset 3px 0 0 var(--good); }
   tr.row-exit { background: var(--good-soft); }
   tr.row-exit:hover { background: var(--good-soft); }
-  tr.row-exit td { font-weight: 700; }
+  tr.row-exit :is(td,th) { font-weight: 700; }
   .badge { font-family: var(--mono); font-size: 10.5px; padding: 2px 6px; border-radius: 5px; font-weight: 700; letter-spacing:.03em; }
   .badge.first { background: var(--small-soft); color: var(--small); }
   .badge.second { background: var(--big-soft); color: var(--big); }
@@ -277,10 +284,10 @@
       <span class="sub">3배 레버리지 ETF의 변동성을 “위험”이 아니라 “수익의 재료”로 쓰는 법 —<br>감정을 배제하고 규칙만 따르는 코스트 애버리징 매매법의 원리와 실전 샘플</span>
     </h1>
     <div class="hero-meta">
-      <span class="chip">📗 <b>『라오어의 미국주식 무한매수법』</b> 알키·2021</span>
+      <span class="chip"><span aria-hidden="true">📗</span> <b>『라오어의 미국주식 무한매수법』</b> 알키·2021</span>
       <span class="chip">버전 <b>v1 → v2.2 → v3.0 → v4.0</b></span>
       <span class="chip">샘플 종목 <b>SOXL</b> (반도체 3×)</span>
-      <span class="chip">🎯 초점 <b>큰수 vs 작은수</b></span>
+      <span class="chip"><span aria-hidden="true">🎯</span> 초점 <b>큰수 vs 작은수</b></span>
     </div>
     <nav class="toc" aria-label="목차">
       <a href="#intro">무한매수법이란</a>
@@ -525,18 +532,18 @@
           <caption>표 1 — SOXL v2.2 매매 원장 (교육용 시뮬레이션 · LOC는 <b>종가에 체결</b>, 주문가는 “체결 여부의 문턱”)</caption>
           <thead>
             <tr>
-              <th>일차</th>
-              <th>종가 $</th>
-              <th>구간</th>
-              <th>T</th>
-              <th>별%</th>
-              <th title="작은수 = 평단 LOC 주문가">작은수 $</th>
-              <th title="큰수 = 별지점 LOC 주문가">큰수 $</th>
-              <th>매수 (작은수/큰수)</th>
-              <th>매도</th>
-              <th>평단 $</th>
-              <th>보유</th>
-              <th class="note-cell">그날 일어난 일</th>
+              <th scope="col">일차</th>
+              <th scope="col">종가 $</th>
+              <th scope="col">구간</th>
+              <th scope="col">T</th>
+              <th scope="col">별%</th>
+              <th scope="col" title="작은수 = 평단 LOC 주문가">작은수 $</th>
+              <th scope="col" title="큰수 = 별지점 LOC 주문가">큰수 $</th>
+              <th scope="col">매수 (작은수/큰수)</th>
+              <th scope="col">매도</th>
+              <th scope="col">평단 $</th>
+              <th scope="col">보유</th>
+              <th scope="col" class="note-cell">그날 일어난 일</th>
             </tr>
           </thead>
           <tbody id="ledgerBody"></tbody>
@@ -546,7 +553,7 @@
       <div class="col">
         <div class="stats">
           <div class="stat"><div class="n num">15일</div><div class="l">사이클 길이 (거래일)</div></div>
-          <div class="stat"><div class="n num">T 6.4 / 40</div><div class="l">최대 소진 회차 (원금의 16%)</div></div>
+          <div class="stat"><div class="n num">T 6.7 / 40</div><div class="l">최대 소진 회차 (원금의 16.8%)</div></div>
           <div class="stat good"><div class="n num">+$794</div><div class="l">사이클 실현손익</div></div>
           <div class="stat good"><div class="n num">+2.0%</div><div class="l">원금 대비 수익률 (1사이클)</div></div>
         </div>
@@ -573,17 +580,17 @@
       <div class="table-scroll">
         <table class="vtable">
           <thead>
-            <tr><th>항목</th><th>v1 (2021)</th><th>v2.2 (2022.12)</th><th>v3.0 (2024)</th><th>v4.0 (2026.03 · 최신 오피셜)</th></tr>
+            <tr><th scope="col">항목</th><th scope="col">v1 (2021)</th><th scope="col">v2.2 (2022.12)</th><th scope="col">v3.0 (2024)</th><th scope="col">v4.0 (2026.03 · 최신 오피셜)</th></tr>
           </thead>
           <tbody>
-            <tr><td>분할 / 1회매수금</td><td>40분할 (단리)</td><td>40분할 (단리)</td><td>20분할, 수익금 즉시 복리</td><td>20/30/40 <b>선택</b> · 1회매수금 = <b>잔금 ÷ (분할수 − T)</b> 로 매일 실시간 변동</td></tr>
-            <tr><td>T값(회차) 계산</td><td>회차 개념 단순</td><td>T = 누적매수액 ÷ 1회매수액 (라운딩 논쟁 有)</td><td>v2.2와 동일 (복리 반영)</td><td><b>회차 가산으로 단순화</b>: 1회 매수→T+1, 절반→+0.5, 쿼터매도→T×0.75 (라운딩 이슈 제거)</td></tr>
-            <tr><td>큰수(별지점) 주문가</td><td>시중가 +10~15% (고정)</td><td>별%=(10−T/2)%</td><td>별% = TQQQ (15−1.5T)%, SOXL (20−2T)%</td><td>별지점=평단×(1+별%). 별% = TQQQ 20분할 (15−1.5T)% / 40분할 (15−0.75T)%, SOXL 20분할 (20−2T)% / 40분할 (20−T)%</td></tr>
-            <tr><td>작은수 주문가</td><td>평단 (0%)</td><td>평단 (전반전만)</td><td>평단 (전반전만)</td><td>평단 (전반전만)</td></tr>
-            <tr><td>전·후반 전환</td><td>없음</td><td>T=20에서 연속적으로</td><td>T=10에서 (20분할)</td><td>T = 분할수 ÷ 2 에서</td></tr>
-            <tr><td>매도</td><td>평단 +10% 전량 지정가 (분할 없음)</td><td>1/4 별% LOC + 3/4 +10% 지정가</td><td>1/4 별% LOC + 3/4 TQQQ +15% / SOXL +20% 지정가</td><td>1/4 별지점 LOC + 3/4 TQQQ +15% / SOXL +20% 지정가 (지정가매도는 프리장 시작에)</td></tr>
-            <tr><td>소진 대응</td><td>단일 룰 없음 (대기 / 영혼법 등)</td><td>쿼터손절 모드 (39&lt;T≤40)</td><td>쿼터모드 (19&lt;T&lt;20)</td><td><b>리버스(소진)모드</b> (T &gt; 분할수−1 진입)</td></tr>
-            <tr><td>성향</td><td>단순·직관</td><td>안정적 생존에 최적화</td><td>강세장 수익률 극대화</td><td>계산 단순화 + 잔금 기반 실시간 분할 (분할수 선택으로 공격성 조절)</td></tr>
+            <tr><th scope="row">분할 / 1회매수금</th><td>40분할 (단리)</td><td>40분할 (단리)</td><td>20분할, 수익금 즉시 복리</td><td>20/30/40 <b>선택</b> · 1회매수금 = <b>잔금 ÷ (분할수 − T)</b> 로 매일 실시간 변동</td></tr>
+            <tr><th scope="row">T값(회차) 계산</th><td>회차 개념 단순</td><td>T = 누적매수액 ÷ 1회매수액 (라운딩 논쟁 有)</td><td>v2.2와 동일 (복리 반영)</td><td><b>회차 가산으로 단순화</b>: 1회 매수→T+1, 절반→+0.5, 쿼터매도→T×0.75 (라운딩 이슈 제거)</td></tr>
+            <tr><th scope="row">큰수(별지점) 주문가</th><td>시중가 +10~15% (고정)</td><td>별%=(10−T/2)%</td><td>별% = TQQQ (15−1.5T)%, SOXL (20−2T)%</td><td>별지점=평단×(1+별%). 별% = TQQQ 20분할 (15−1.5T)% / 40분할 (15−0.75T)%, SOXL 20분할 (20−2T)% / 40분할 (20−T)%</td></tr>
+            <tr><th scope="row">작은수 주문가</th><td>평단 (0%)</td><td>평단 (전반전만)</td><td>평단 (전반전만)</td><td>평단 (전반전만)</td></tr>
+            <tr><th scope="row">전·후반 전환</th><td>없음</td><td>T=20에서 연속적으로</td><td>T=10에서 (20분할)</td><td>T = 분할수 ÷ 2 에서</td></tr>
+            <tr><th scope="row">매도</th><td>평단 +10% 전량 지정가 (분할 없음)</td><td>1/4 별% LOC + 3/4 +10% 지정가</td><td>1/4 별% LOC + 3/4 TQQQ +15% / SOXL +20% 지정가</td><td>1/4 별지점 LOC + 3/4 TQQQ +15% / SOXL +20% 지정가 (지정가매도는 프리장 시작에)</td></tr>
+            <tr><th scope="row">소진 대응</th><td>단일 룰 없음 (대기 / 영혼법 등)</td><td>쿼터손절 모드 (39&lt;T≤40)</td><td>쿼터모드 (19&lt;T&lt;20)</td><td><b>리버스(소진)모드</b> (T &gt; 분할수−1 진입)</td></tr>
+            <tr><th scope="row">성향</th><td>단순·직관</td><td>안정적 생존에 최적화</td><td>강세장 수익률 극대화</td><td>계산 단순화 + 잔금 기반 실시간 분할 (분할수 선택으로 공격성 조절)</td></tr>
           </tbody>
         </table>
       </div>
@@ -734,7 +741,7 @@
     {day:12, close:138.30, phase:"전반전", T:5.5, star:7.25, small:136.62, big:146.51, sb:0, bb:3, sell:0, avg:136.74, sh:43, kind:"half", note:"평단 < 종가 ≤ 별지점 → 큰수만 체결(0.5회분)"},
     {day:13, close:144.20, phase:"전반전", T:5.9, star:7.05, small:136.74, big:146.37, sb:0, bb:3, sell:0, avg:137.22, sh:46, kind:"half", note:"평단 < 종가 ≤ 별지점 → 큰수만 체결(0.5회분)"},
     {day:14, close:148.50, phase:"전반전", T:6.4, star:6.8, small:137.22, big:146.54, sb:0, bb:0, sell:11, avg:137.22, sh:35, kind:"sell", note:"종가 ≥ 별지점 → 1/4(11주) 별% LOC 부분매도"},
-    {day:15, close:153.20, phase:"익절", T:4.9, star:7.55, small:null, big:null, sb:0, bb:0, sell:35, avg:137.22, sh:0, kind:"exit", note:"★ 종가 ≥ 평단+10% → 3/4 지정가 + 1/4 별% LOC 전량 체결, 실현손익 +$559 → 사이클 종료"}
+    {day:15, close:153.20, phase:"익절", T:4.9, star:7.55, small:null, big:null, sb:0, bb:0, sell:35, avg:137.22, sh:0, kind:"exit", note:"★ 종가 ≥ 평단+10% → 3/4 지정가 + 1/4 별% LOC 전량 체결, 이 익절분만 +$559 · 사이클 누적 실현손익 +$794 → 사이클 종료"}
   ];
 
   var tt = document.getElementById("tt");
@@ -770,7 +777,8 @@
         if(content instanceof Node) c.appendChild(content); else c.textContent=content;
         tr.appendChild(c);
       }
-      td(r.day);
+      function thRow(text){ var c=document.createElement("th"); c.setAttribute("scope","row"); c.textContent=text; tr.appendChild(c); return c; }
+      thRow(r.day);
       td(r.close.toFixed(2));
       td(r.phase);
       td(r.T.toFixed(1));
@@ -872,24 +880,23 @@
       var dot=el("circle",{cx:cx,cy:cy,r:isSell?5:3.5,fill:isSell?css("--good"):css("--ink"),stroke:css("--surface"),"stroke-width":2});
       svg.appendChild(dot);
       // invisible hit target
-      var hit=el("rect",{x:cx-16,y:y1,width:32,height:y0-y1,fill:"transparent"});
+      var hit=el("rect",{x:cx-16,y:y1,width:32,height:y0-y1,fill:"transparent","class":"hit"});
       (function(rr){
-        function move(ev){
-          var pt=ev.touches?ev.touches[0]:ev;
-          var buy = (rr.sb||rr.bb) ? ("작은수 "+rr.sb+" / 큰수 "+rr.bb+"주") : (rr.sell? ("매도 "+rr.sell+"주") : "체결 없음");
-          var lines = [
-            "D"+rr.day+" · "+rr.phase,
-            "종가 $"+rr.close.toFixed(2),
-            "평단(작은수) $"+rr.avg.toFixed(2)
-          ];
-          if(rr.big!=null) lines.push("별지점(큰수) $"+rr.big.toFixed(2));
-          if(rr.star!=null) lines.push("T="+rr.T.toFixed(1)+" · 별% "+(rr.star>0?"+":"")+rr.star.toFixed(2)+"%");
-          lines.push(buy);
-          showTip(lines, pt.clientX, pt.clientY);
+        function lines(){
+          var buy=(rr.sb||rr.bb)?("작은수 "+rr.sb+" / 큰수 "+rr.bb+"주"):(rr.sell?("매도 "+rr.sell+"주"):"체결 없음");
+          var ls=["D"+rr.day+" · "+rr.phase,"종가 $"+rr.close.toFixed(2),"평단(작은수) $"+rr.avg.toFixed(2)];
+          if(rr.big!=null) ls.push("별지점(큰수) $"+rr.big.toFixed(2));
+          if(rr.star!=null) ls.push("T="+rr.T.toFixed(1)+" · 별% "+(rr.star>0?"+":"")+rr.star.toFixed(2)+"%");
+          ls.push(buy); return ls;
         }
-        hit.addEventListener("mousemove",move);
-        hit.addEventListener("mouseenter",move);
-        hit.addEventListener("touchstart",move,{passive:true});
+        function moveTo(ev){ var pt=ev.touches?ev.touches[0]:ev; showTip(lines(),pt.clientX,pt.clientY); }
+        hit.setAttribute("tabindex","0");
+        hit.setAttribute("role","img");
+        hit.setAttribute("aria-label","D"+rr.day+" "+rr.phase+" · 종가 $"+rr.close.toFixed(2)+" · 평단 $"+rr.avg.toFixed(2));
+        hit.addEventListener("mousemove",moveTo);
+        hit.addEventListener("touchstart",moveTo,{passive:true});
+        hit.addEventListener("focus",function(){ var b=hit.getBoundingClientRect(); showTip(lines(),b.left+b.width/2,b.top+30); });
+        hit.addEventListener("blur",hideTip);
         hit.addEventListener("mouseleave",hideTip);
         hit.addEventListener("touchend",hideTip);
       })(r);
@@ -952,7 +959,6 @@
   var mo = new MutationObserver(drawAll);
   mo.observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
   if(window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll);
-  var rt; window.addEventListener("resize", function(){ clearTimeout(rt); rt=setTimeout(drawAll,150); });
 })();
 </script>
 </body>

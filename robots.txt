@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://inininax.github.io/laoer-investing-guide/sitemap.xml
