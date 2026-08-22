@@ -35,6 +35,8 @@ docs/rules/              # 에이전트 공용 규칙 (아래 참조)
 
 각 HTML은 자기완결형입니다: `<style>`와 `<script>`가 파일 안에 인라인되어 있고,
 차트는 바닐라 JS로 SVG를 그립니다. 외부 라이브러리/빌드 파이프라인이 없습니다.
+모든 페이지에 CSP 메타(`default-src 'none'`)가 있어 **외부 리소스(CDN·폰트·fetch)를
+하나라도 추가하면 그 부분이 런타임에 차단·깨집니다.**
 
 ## 개발 · 실행
 
@@ -47,8 +49,10 @@ python3 -m http.server 8000    # → http://localhost:8000
 # → https://inininax.github.io/laoer-investing-guide/
 ```
 
-빌드·테스트·린트 도구는 없습니다. **검증 = 브라우저로 직접 열어 확인** (콘솔 에러 없음,
-라이트/다크 전환, 차트·표 렌더링, 모바일 폭 반응형).
+빌드·테스트·린트 도구는 없습니다. **검증 순서:** ① JS 변경 시 `<script>` 내용을 추출해
+Node로 문법 확인 → ② 헤드리스 Chrome(`--dump-dom`)으로 콘솔 에러 0건·JS 생성
+차트·표 렌더링 확인 → ③ 브라우저에서 라이트/다크 전환·모바일 폭 확인.
+정확한 명령어는 [docs/rules/content-style.md](docs/rules/content-style.md)의 검증 섹션 참조.
 
 ## 공용 규칙 (반드시 준수)
 
@@ -65,6 +69,8 @@ python3 -m http.server 8000    # → http://localhost:8000
 3. **원작자/권리자가 원하면 즉시 삭제**한다는 문구를 유지한다.
 4. 규칙·수치는 **교차검증**하고 **버전을 명시**하며, 불확실하면 그렇게 표기한다.
 5. 3배 레버리지의 **고위험성**을 항상 함께 서술한다.
+6. 새 페이지는 content-style.md의 **필수 골격**(doctype·charset·viewport·CSP)으로 시작하고,
+   DOM 조립엔 **`innerHTML` 대신 `textContent`·`createElement`**를 쓴다. 인라인 `on*` 이벤트 금지.
 
 ## 커밋
 
