@@ -10,7 +10,7 @@
 <meta property="og:description" content="라오어 무한매수법을 숫자로 정리한 비공식 교육 자료 — 큰수·작은수 LOC 주문 원리, v2.2 별% 공식과 전·후반전 규칙, SOXL 한 사이클 매매 샘플 원장, 버전별(v1~v4.0) 차이와 리스크까지. 투자 권유가 아닌 학습용 2차 자료입니다.">
 <meta property="og:url" content="https://inininax.github.io/laoer-investing-guide/infinite-buying.html">
 <meta property="og:type" content="article">
-<title>라오어 무한매수법 — 교육 자료 & SOXL 매매 샘플</title>
+<title>라오어 무한매수법 — 교육 자료 &amp; SOXL 매매 샘플</title>
 <style>
   :root {
     color-scheme: light;
@@ -187,6 +187,7 @@
   .chart-sub { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; }
   .chart-scroll { overflow-x: auto; touch-action: pan-y; }
   svg { display: block; width: 100%; height: auto; }
+  svg text.mono { font-family: var(--mono); }
   .legend { display:flex; flex-wrap:wrap; gap: 14px; margin: 10px 2px 4px; font-size: 13px; color: var(--ink-2); }
   .legend span { display:inline-flex; align-items:center; gap:6px; }
   .legend i { width: 14px; height: 3px; border-radius: 2px; display:inline-block; }
@@ -529,7 +530,7 @@
 
       <div class="table-scroll" style="margin-top:8px">
         <table id="ledger">
-          <caption>표 1 — SOXL v2.2 매매 원장 (교육용 시뮬레이션 · LOC는 <b>종가에 체결</b>, 주문가는 “체결 여부의 문턱”)</caption>
+          <caption>SOXL v2.2 매매 원장 (교육용 시뮬레이션 · LOC는 <b>종가에 체결</b>, 주문가는 “체결 여부의 문턱”)</caption>
           <thead>
             <tr>
               <th scope="col">일차</th>
@@ -715,6 +716,7 @@
         <li>stockanalysis.com / 운용사 보도자료 — SOLX·SOXL 티커·시세 확인</li>
       </ol>
       <p style="margin-top:20px;color:var(--muted);font-size:13px">규칙은 2차 자료 기반이며 원본은 라오어의 저서·네이버 카페 글입니다. · 매매 원장은 검증된 v2.2 공식으로 계산한 교육용 시뮬레이션.</p>
+      <p style="margin-top:16px"><a href="index.html">← 홈 · 라오어 투자 전략 교육 자료 목차</a></p>
     </div>
   </footer>
 </main>
@@ -812,12 +814,12 @@
     [-10,-5,0,5,10].forEach(function(s){
       var y=Sy(s);
       svg.appendChild(el("line",{x1:x0,y1:y,x2:x1,y2:y,stroke:css("--hair"),"stroke-width":1}));
-      var t=el("text",{x:x0-8,y:y+4,"text-anchor":"end",fill:css("--muted"),"font-size":11,"font-family":"var(--mono)"});
+      var t=el("text",{x:x0-8,y:y+4,"text-anchor":"end",fill:css("--muted"),"font-size":11,"class":"mono"});
       t.textContent=(s>0?"+":"")+s+"%"; svg.appendChild(t);
     });
     [0,10,20,30,40].forEach(function(T){
       var x=Tx(T);
-      var t=el("text",{x:x,y:y0+22,"text-anchor":"middle",fill:css("--muted"),"font-size":11,"font-family":"var(--mono)"});
+      var t=el("text",{x:x,y:y0+22,"text-anchor":"middle",fill:css("--muted"),"font-size":11,"class":"mono"});
       t.textContent="T="+T; svg.appendChild(t);
     });
     // zero line emphasis
@@ -825,7 +827,7 @@
     // boundary T=20
     var bx=Tx(20);
     svg.appendChild(el("line",{x1:bx,y1:y1,x2:bx,y2:y0,stroke:css("--accent"),"stroke-width":1.5,"stroke-dasharray":"4 4",opacity:.7}));
-    var bl=el("text",{x:bx+6,y:y1+14,fill:css("--accent"),"font-size":11,"font-weight":700,"font-family":"var(--mono)"}); bl.textContent="T=20 · 전/후반 경계"; svg.appendChild(bl);
+    var bl=el("text",{x:bx+6,y:y1+14,fill:css("--accent"),"font-size":11,"font-weight":700,"class":"mono"}); bl.textContent="T=20 · 전/후반 경계"; svg.appendChild(bl);
     // phase labels
     var fh=el("text",{x:(x0+bx)/2,y:y1+2,"text-anchor":"middle",fill:css("--muted"),"font-size":11}); fh.textContent="전반전 (별% > 0)"; svg.appendChild(fh);
     var sh=el("text",{x:(bx+x1)/2,y:y0-8,"text-anchor":"middle",fill:css("--muted"),"font-size":11}); sh.textContent="후반전 (별% ≤ 0)"; svg.appendChild(sh);
@@ -852,12 +854,12 @@
     [130,135,140,145,150,155].forEach(function(v){
       var y=Yy(v);
       svg.appendChild(el("line",{x1:x0,y1:y,x2:x1,y2:y,stroke:css("--hair"),"stroke-width":1}));
-      var t=el("text",{x:x0-8,y:y+4,"text-anchor":"end",fill:css("--muted"),"font-size":10.5,"font-family":"var(--mono)"});
+      var t=el("text",{x:x0-8,y:y+4,"text-anchor":"end",fill:css("--muted"),"font-size":10.5,"class":"mono"});
       t.textContent="$"+v; svg.appendChild(t);
     });
     ROWS.forEach(function(r,i){
       if(i%2===0||i===ROWS.length-1){
-        var t=el("text",{x:Xx(i),y:y0+20,"text-anchor":"middle",fill:css("--muted"),"font-size":10.5,"font-family":"var(--mono)"});
+        var t=el("text",{x:Xx(i),y:y0+20,"text-anchor":"middle",fill:css("--muted"),"font-size":10.5,"class":"mono"});
         t.textContent="D"+r.day; svg.appendChild(t);
       }
     });
@@ -921,7 +923,7 @@
     [60,70,80,90,100].forEach(function(v){
       var y=Yy(v);
       svg.appendChild(el("line",{x1:x0,y1:y,x2:x1,y2:y,stroke:css("--hair"),"stroke-width":1}));
-      var t=el("text",{x:x0-8,y:y+4,"text-anchor":"end",fill:css("--muted"),"font-size":11,"font-family":"var(--mono)"}); t.textContent=v; svg.appendChild(t);
+      var t=el("text",{x:x0-8,y:y+4,"text-anchor":"end",fill:css("--muted"),"font-size":11,"class":"mono"}); t.textContent=v; svg.appendChild(t);
     });
     svg.appendChild(el("line",{x1:x0,y1:Yy(100),x2:x1,y2:Yy(100),stroke:css("--hair-strong"),"stroke-width":1.5,"stroke-dasharray":"3 3"}));
     var gw=(x1-x0)/groups.length, bw=42, gap=10;
@@ -931,7 +933,7 @@
         var y=Yy(val), h=y0-y, x=cx+off;
         var rect=el("rect",{x:x,y:y,width:bw,height:Math.max(h,0),rx:4,fill:color});
         svg.appendChild(rect);
-        var t=el("text",{x:x+bw/2,y:y-6,"text-anchor":"middle",fill:color,"font-size":11.5,"font-weight":700,"font-family":"var(--mono)"});
+        var t=el("text",{x:x+bw/2,y:y-6,"text-anchor":"middle",fill:color,"font-size":11.5,"font-weight":700,"class":"mono"});
         t.textContent=label; svg.appendChild(t);
       }
       bar(g.idx, css("--accent"), -(bw+gap)/2, g.idx.toFixed(g.idx%1?1:0));

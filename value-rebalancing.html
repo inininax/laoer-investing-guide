@@ -236,6 +236,8 @@ td {
   padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--grid);
   font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--ink-1);
 }
+tbody th { font-size: 13.5px; color: var(--ink-1); letter-spacing: normal;
+           padding: 7px 12px; white-space: nowrap; }
 tr:last-child :is(td, th) { border-bottom: none; }
 tr.phase td { background: var(--accent-soft); font-weight: 650; font-size: 12px; color: var(--ink-2); text-align: left; letter-spacing: 0.05em; }
 .chip {
@@ -565,7 +567,7 @@ footer ul { padding-left: 18px; }
 </section>
 
 <!-- ================================================================ -->
-<section id="s7b">
+<section id="s7">
   <div class="secno">07 · 스트레스 테스트</div>
   <h2>시나리오 C — 2022년형 극단 폭락 (−79%)</h2>
   <p>VR을 "안전한 전략"으로 오해하지 않으려면 최악을 봐야 합니다. 2021년 고점에서 2022년까지 TQQQ가
@@ -598,7 +600,7 @@ footer ul { padding-left: 18px; }
 </section>
 
 <!-- ================================================================ -->
-<section id="s7">
+<section id="s8">
   <div class="secno">08 · 직접 실험하기</div>
   <h2>인터랙티브 시뮬레이터</h2>
   <p>G와 초기 현금 비중을 바꿔가며 위 세 시나리오(급락 후 회복 · 횡보 · 극단 폭락)를 직접 돌려보세요.
@@ -642,7 +644,7 @@ footer ul { padding-left: 18px; }
 </section>
 
 <!-- ================================================================ -->
-<section id="s8">
+<section id="s9">
   <div class="secno">09 · 운용 방식</div>
   <h2>적립식 · 거치식 · 인출식</h2>
   <p>같은 VR 엔진 위에 현금 흐름의 방향만 달라지는 세 가지 모드가 있습니다.</p>
@@ -659,7 +661,7 @@ footer ul { padding-left: 18px; }
 </section>
 
 <!-- ================================================================ -->
-<section id="s8b">
+<section id="s10">
   <div class="secno">10 · 적립식 실전</div>
   <h2>월급이 Pool을 채운다 — 적립식 VR</h2>
   <p>적립식은 VR의 가장 큰 약점인 <strong>Pool 소진</strong>을 정면으로 보완합니다. 시나리오 A(급락 −50%)와 같은
@@ -689,7 +691,7 @@ footer ul { padding-left: 18px; }
 </section>
 
 <!-- ================================================================ -->
-<section id="s9">
+<section id="s11">
   <div class="secno">11 · 균형 잡힌 시각</div>
   <h2>장점, 그리고 반드시 알아야 할 한계</h2>
   <h3>이 구조가 주는 것</h3>
@@ -711,7 +713,7 @@ footer ul { padding-left: 18px; }
 </section>
 
 <!-- ================================================================ -->
-<section id="s10">
+<section id="s12">
   <div class="secno">12 · 자주 묻는 질문</div>
   <h2>FAQ</h2>
   <details><summary>왜 하필 2주(10거래일) 주기인가요?</summary>
@@ -761,6 +763,7 @@ footer ul { padding-left: 18px; }
     <li><a href="https://radarcha.com/entry/%EB%9D%BC%EC%98%A4%EC%96%B4-3%EB%B0%B0-%EB%A0%88%EB%B2%84%EB%A6%AC%EC%A7%80-%ED%88%AC%EC%9E%90%EB%B2%95-%EB%AC%B4%ED%95%9C%EB%A7%A4%EC%88%98%EB%B2%95-%EB%B0%B8%EB%A5%98%EB%A6%AC%EB%B0%B8%EB%9F%B0%EC%8B%B1-TQQQ">라오어 3배 레버리지 투자법 정리</a></li>
     <li><a href="https://brunch.co.kr/@jm5h/10">TQQQ를 활용한 VR 투자법에 대한 생각 (브런치)</a></li>
   </ul>
+  <p><a href="index.html">← 홈 · 라오어 투자 전략 교육 자료 목차</a></p>
 </footer>
 </div>
 
@@ -939,7 +942,7 @@ function lineChart(el, cfg) {
     svg.appendChild(txt(x(li) - 4, ly - 8, s.name, {'text-anchor': 'end', 'font-size': 11.5, 'font-weight': 650, fill: css('--ink-2')}));
   });
 
-  const xh = mk('line', {id: 'xh', x1: 0, y1: m.t, x2: 0, y2: m.t + ih, stroke: css('--axis'), 'stroke-width': 1, opacity: 0});
+  const xh = mk('line', {x1: 0, y1: m.t, x2: 0, y2: m.t + ih, stroke: css('--axis'), 'stroke-width': 1, opacity: 0});
   svg.appendChild(xh);
   el.appendChild(svg);
 
